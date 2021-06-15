@@ -36,8 +36,6 @@ services:
       GRAYLOG_HTTP_BIND_ADDRESS: "0.0.0.0:9000"
       GRAYLOG_HTTP_EXTERNAL_URI: "http://localhost:9000/"
       GRAYLOG_HTTP_ENABLE_CORS: "true"
-      # To make reporting (headless_shell) work inside a Docker container
-      GRAYLOG_REPORT_DISABLE_SANDBOX: "true"
     links:
     - "mongo"
     - "elasticsearch"
