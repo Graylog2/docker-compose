@@ -34,7 +34,6 @@ services:
       GRAYLOG_PASSWORD_SECRET: "somepasswordpepper"
       GRAYLOG_ROOT_PASSWORD_SHA2: "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"
       GRAYLOG_HTTP_BIND_ADDRESS: "0.0.0.0:9000"
-      GRAYLOG_HTTP_PUBLISH_URI: "http://localhost:9000/"
       GRAYLOG_HTTP_EXTERNAL_URI: "http://localhost:9000/"
       GRAYLOG_HTTP_ENABLE_CORS: "true"
       # To make reporting (headless_shell) work inside a Docker container
@@ -49,8 +48,8 @@ services:
     - "5555:5555/tcp"   # RAW TCP
     - "5555:5555/udp"   # RAW TCP
     - "9000:9000/tcp"   # Server API
-    - "12201:12201/tcp" # GELF
-    - "12201:12201/udp" # GELF
+    - "12201:12201/tcp" # GELF TCP
+    - "12201:12201/udp" # GELF UDP
     - "10000:10000/tcp" # Custom
     - "10000:10000/udp" # Custom
     - "10001:10001/tcp" # Custom
