@@ -48,28 +48,8 @@ services:
     - "9000:9000/tcp"   # Server API
     - "12201:12201/tcp" # GELF TCP
     - "12201:12201/udp" # GELF UDP
-    - "10000:10000/tcp" # Custom
-    - "10000:10000/udp" # Custom
-    - "10001:10001/tcp" # Custom
-    - "10001:10001/udp" # Custom
-    - "10002:10002/tcp" # Custom
-    - "10002:10002/udp" # Custom
-    - "10003:10003/tcp" # Custom
-    - "10003:10003/udp" # Custom
-    - "10004:10004/tcp" # Custom
-    - "10004:10004/udp" # Custom
-    - "10005:10005/tcp" # Custom
-    - "10005:10005/udp" # Custom
-    - "10006:10006/tcp" # Custom
-    - "10006:10006/udp" # Custom
-    - "10007:10007/tcp" # Custom
-    - "10007:10007/udp" # Custom
-    - "10008:10008/tcp" # Custom
-    - "10008:10008/udp" # Custom
-    - "10009:10009/tcp" # Custom
-    - "10009:10009/udp" # Custom
-    - "10010:10010/tcp" # Custom
-    - "10010:10010/udp" # Custom
+    #- "10000:10000/tcp" # Custom TCP port
+    #- "10000:10000/udp" # Custom UDP port
     - "13301:13301/tcp" # Forwarder data
     - "13302:13302/tcp" # Forwarder config
     volumes:
