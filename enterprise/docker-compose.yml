@@ -48,8 +48,8 @@ services:
     - "5555:5555/tcp"   # RAW TCP
     - "5555:5555/udp"   # RAW TCP
     - "9000:9000/tcp"   # Server API
-    - "12201:12201/tcp" # GELF
-    - "12201:12201/udp" # GELF
+    - "12201:12201/tcp" # GELF TCP
+    - "12201:12201/udp" # GELF UDP
     - "10000:10000/tcp" # Custom
     - "10000:10000/udp" # Custom
     - "10001:10001/tcp" # Custom
