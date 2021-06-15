@@ -43,8 +43,8 @@ services:
     - "elasticsearch"
     ports:
     - "5044:5044/tcp"   # Beats
-    - "5140:5140/udp"   # Syslog
-    - "5140:5140/tcp"   # Syslog
+    - "5140:5140/tcp"   # Syslog TCP
+    - "5140:5140/udp"   # Syslog UDP
     - "5555:5555/tcp"   # RAW TCP
     - "5555:5555/udp"   # RAW TCP
     - "9000:9000/tcp"   # Server API
