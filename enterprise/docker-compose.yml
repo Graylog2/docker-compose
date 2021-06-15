@@ -1,9 +1,9 @@
 version: "3.8"
 services:
-  mongo:
+  mongodb:
     image: "mongo:4.2"
     volumes:
-      - "mongo_data:/data/db"
+      - "mongodb_data:/data/db"
     restart: "always"
 
   elasticsearch:
@@ -26,7 +26,7 @@ services:
     depends_on:
       elasticsearch:
         condition: "service_started"
-      mongo:
+      mongodb:
         condition: "service_started"
     entrypoint: "/usr/bin/tini -- wait-for-it elasticsearch:9200 --  /docker-entrypoint.sh"
     environment:
@@ -39,7 +39,7 @@ services:
       # To make reporting (headless_shell) work inside a Docker container
       GRAYLOG_REPORT_DISABLE_SANDBOX: "true"
     links:
-    - "mongo"
+    - "mongodb"
     - "elasticsearch"
     ports:
     - "5044:5044/tcp"   # Beats
@@ -79,7 +79,7 @@ services:
       - "graylog_journal:/usr/share/graylog/data/journal"
     restart: "always"
 volumes:
-  mongo_data:
+  mongodb_data:
   es_data:
   graylog_data:
   graylog_journal:
