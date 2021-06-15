@@ -1,37 +1,38 @@
-version: '3.8'
+version: "3.8"
 services:
   mongo:
-    image: mongo:4.2
+    image: "mongo:4.2"
     volumes:
       - "mongo_data:/data/db"
-    restart: always
+    restart: "always"
+
   elasticsearch:
     environment:
-      ES_JAVA_OPTS: -Xms512m -Xmx512m
+      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
       bootstrap.memory_lock: "true"
-      discovery.type: single-node
-      http.host: 0.0.0.0
-    image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.10.0
+      discovery.type: "single-node"
+      http.host: "0.0.0.0"
+    image: "docker.elastic.co/elasticsearch/elasticsearch-oss:7.10.1"
     ulimits:
       memlock:
         hard: -1
         soft: -1
     volumes:
       - "es_data:/usr/share/elasticsearch/data"
-    restart: always
+    restart: "always"
+
   graylog:
-    image: graylog/graylog:4.0
+    image: "graylog/graylog:4.0"
     depends_on:
       elasticsearch:
-        condition: service_started
+        condition: "service_started"
       mongo:
-        condition: service_started
-    entrypoint: /usr/bin/tini -- wait-for-it elasticsearch:9200 --  /docker-entrypoint.sh
+        condition: "service_started"
+    entrypoint: "/usr/bin/tini -- wait-for-it elasticsearch:9200 --  /docker-entrypoint.sh"
     environment:
-      GRAYLOG_MESSAGE_JOURNAL_ENABLED: "false"
-      GRAYLOG_NODE_ID_FILE: /usr/share/graylog/data/config/node-id
-      GRAYLOG_PASSWORD_SECRET: somepasswordpepper
-      GRAYLOG_ROOT_PASSWORD_SHA2: 8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
+      GRAYLOG_NODE_ID_FILE: "/usr/share/graylog/data/config/node-id"
+      GRAYLOG_PASSWORD_SECRET: "somepasswordpepper"
+      GRAYLOG_ROOT_PASSWORD_SHA2: "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"
       GRAYLOG_HTTP_BIND_ADDRESS: "0.0.0.0:9000"
       GRAYLOG_HTTP_PUBLISH_URI: "http://localhost:9000/"
       GRAYLOG_HTTP_EXTERNAL_URI: "http://localhost:9000/"
@@ -39,8 +40,8 @@ services:
       # To make reporting (headless_shell) work inside a Docker container
       GRAYLOG_REPORT_DISABLE_SANDBOX: "true"
     links:
-    - mongo
-    - elasticsearch
+    - "mongo"
+    - "elasticsearch"
     ports:
     - "5044:5044/tcp"   # Beats
     - "5140:5140/udp"   # Syslog
@@ -75,9 +76,9 @@ services:
     - "13301:13301/tcp" # Forwarder data
     - "13302:13302/tcp" # Forwarder config
     volumes:
-      - graylog_data:/usr/share/graylog/data/data
-      - graylog_journal:/usr/share/graylog/data/journal
-    restart: always
+      - "graylog_data:/usr/share/graylog/data/data"
+      - "graylog_journal:/usr/share/graylog/data/journal"
+    restart: "always"
 volumes:
   mongo_data:
   es_data:
