@@ -9,7 +9,7 @@ services:
 
   elasticsearch:
     environment:
-      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+      ES_JAVA_OPTS: "-Xms1g -Xmx1g"
       bootstrap.memory_lock: "true"
       discovery.type: "single-node"
       http.host: "0.0.0.0"
