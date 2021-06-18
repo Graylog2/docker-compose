@@ -4,6 +4,9 @@
 
 This is a set of [Docker Compose](https://docs.docker.com/compose/) files that allow you to quickly spin up a [Graylog](https://docs.graylog.org/en/4.1/index.html) instance for testing or demo purposes.
 
+## Prerequisites
+- [Docker](https://docs.docker.com/engine/install/)
+- [Docker-Compose](https://docs.docker.com/compose/install/)
 
 ## Configure Graylog
 
