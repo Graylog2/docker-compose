@@ -21,7 +21,7 @@ There is an environment file (`.env.example`) where you can store these environm
 
 ## Starting Graylog
 
-After you've configured your password secret and password sha, run these commands to start the instance:
+After you've configured `GRAYLOG_PASSWORD_SECRET` and `GRAYLOG_ROOT_PASSWORD_SHA2`, run these commands to start the instance:
 
     docker-compose up
 
