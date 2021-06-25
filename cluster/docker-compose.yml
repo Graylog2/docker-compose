@@ -1,0 +1,149 @@
+version: "3.8"
+
+services:
+  m01:
+    image: "mongo:4.2"
+    volumes:
+      - "m01db:/data/db"
+    networks:
+      - graylog
+
+  e01:
+    environment:
+      node.name: "e01"
+      cluster.name: "es-docker-cluster"
+      discovery.seed_hosts: "e02,e03"
+      cluster.initial_master_nodes: "e01,e02,e03"
+      bootstrap.memory_lock: "true"
+      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+    image: "docker.elastic.co/elasticsearch/elasticsearch:7.10.2"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - "esdata01:/usr/share/elasticsearch/data"
+    networks:
+      - graylog
+
+  e02:
+    environment:
+      node.name: "e02"
+      cluster.name: "es-docker-cluster"
+      discovery.seed_hosts: "e01,e03"
+      cluster.initial_master_nodes: "e01,e02,e03"
+      bootstrap.memory_lock: "true"
+      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+    image: "docker.elastic.co/elasticsearch/elasticsearch:7.10.2"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - "esdata02:/usr/share/elasticsearch/data"
+    networks:
+      - graylog
+
+  e03:
+    environment:
+      node.name: "e03"
+      cluster.name: "es-docker-cluster"
+      discovery.seed_hosts: "e01,e02"
+      cluster.initial_master_nodes: "e01,e02,e03"
+      bootstrap.memory_lock: "true"
+      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+    image: "docker.elastic.co/elasticsearch/elasticsearch:7.10.2"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - "esdata03:/usr/share/elasticsearch/data"
+    networks:
+      - graylog
+
+  g01:
+    image: graylog/graylog:4.1
+    depends_on:
+      - m01
+      - e01
+      - e02
+      - e03
+    entrypoint: "/docker-entrypoint.sh"
+    environment:
+      GRAYLOG_PASSWORD_SECRET: "${GRAYLOG_PASSWORD_SECRET:?Please configure GRAYLOG_PASSWORD_SECRET in the .env file}"
+      GRAYLOG_ROOT_PASSWORD_SHA2: "${GRAYLOG_ROOT_PASSWORD_SHA2:?Please configure GRAYLOG_ROOT_PASSWORD_SHA2 in the .env file}"
+      GRAYLOG_HTTP_EXTERNAL_URI: "http://127.0.0.1:9000/"
+      GRAYLOG_ELASTICSEARCH_HOSTS: "http://e01:9200,http://e02:9201,http://e03:9202"
+      GRAYLOG_MONGODB_URI: "mongodb://m01:27017/graylog"
+    ports:
+      - 9000:9000        # Graylog web interface and REST API
+      - 1514:1514        # Syslog TCP
+      - 1514:1514/udp    # Syslog UDP
+      - 12201:12201      # GELF TCP
+      - 12201:12201/udp  # GELF UDP
+    networks:
+      - graylog
+    restart: "always"
+
+  g02:
+    image: graylog/graylog:4.1
+    depends_on:
+      - m01
+      - e01
+      - e02
+      - e03
+    entrypoint: "/docker-entrypoint.sh"
+    environment:
+      GRAYLOG_IS_MASTER: "false"
+      GRAYLOG_PASSWORD_SECRET: ${GRAYLOG_PASSWORD_SECRET:?Please configure GRAYLOG_PASSWORD_SECRET in the .env file}
+      GRAYLOG_ROOT_PASSWORD_SHA2: ${GRAYLOG_ROOT_PASSWORD_SHA2:?Please configure GRAYLOG_ROOT_PASSWORD_SHA2 in the .env file}
+      GRAYLOG_HTTP_EXTERNAL_URI: http://127.0.0.1:9000/
+      GRAYLOG_HTTP_BIND_ADDRESS: 0.0.0.0:9001
+      GRAYLOG_ELASTICSEARCH_HOSTS: http://e01:9200,http://e02:9201,http://e03:9202
+      GRAYLOG_MONGODB_URI: mongodb://m01:27017/graylog
+    ports:
+      - 9001:9001         # Graylog web interface and REST API
+      - 1515:1514         # Syslog TCP
+      - 1515:1514/udp     # Syslog UDP
+      - 12202:12201       # GELF TCP
+      - 12202:12201/udp   # GELF UDP
+    networks:
+      - graylog
+    restart: "always"
+
+  g03:
+    image: graylog/graylog:4.1
+    depends_on:
+      - m01
+      - e01
+      - e02
+      - e03
+    entrypoint: "/docker-entrypoint.sh"
+    environment:
+      GRAYLOG_IS_MASTER: "false"
+      GRAYLOG_PASSWORD_SECRET: ${GRAYLOG_PASSWORD_SECRET:?Please configure GRAYLOG_PASSWORD_SECRET in the .env file}
+      GRAYLOG_ROOT_PASSWORD_SHA2: ${GRAYLOG_ROOT_PASSWORD_SHA2:?Please configure GRAYLOG_ROOT_PASSWORD_SHA2 in the .env file}
+      GRAYLOG_HTTP_EXTERNAL_URI: "http://127.0.0.1:9000/"
+      GRAYLOG_HTTP_BIND_ADDRESS: "0.0.0.0:9002"
+      GRAYLOG_ELASTICSEARCH_HOSTS: "http://e01:9200,http://e02:9201,http://e03:9202"
+      GRAYLOG_MONGODB_URI: "mongodb://m01:27017/graylog"
+    ports:
+      - "9002:9002"       # Graylog web interface and REST API
+      - "1516:1514"       # Syslog TCP
+      - "1516:1514/udp"   # Syslog UDP
+      - "12203:12201"     # GELF TCP
+      - "12203:12201/udp" # GELF UDP
+    networks:
+      - graylog
+    restart: "always"
+
+volumes:
+  m01db:
+  esdata01:
+  esdata02:
+  esdata03:
+
+networks:
+  graylog:
+    driver: bridge

@@ -23,7 +23,7 @@ services:
     restart: "always"
 
   graylog:
-    image: "graylog/graylog-enterprise:4.0"
+    image: "graylog/graylog-enterprise:4.1"
     depends_on:
       elasticsearch:
         condition: "service_started"
