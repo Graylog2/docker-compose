@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This is a set of [Docker Compose](https://docs.docker.com/compose/) files that allow you to quickly spin up a [Graylog](https://docs.graylog.org/en/4.1/index.html) instance for testing or demo purposes.
+This is a set of [Docker Compose](https://docs.docker.com/compose/) files that allow you to quickly spin up a [Graylog](https://docs.graylog.org/) instance for testing or demo purposes.
 
 ## Prerequisites
 - [Docker](https://docs.docker.com/engine/install/)
@@ -10,7 +10,7 @@ This is a set of [Docker Compose](https://docs.docker.com/compose/) files that a
 
 ## Configure Graylog
 
-All the [Graylog configurations](http://docs.graylog.org/en/4.0/pages/configuration/server.conf.html) can be set via environment variables. Just prefix the parameter name with `GRAYLOG_` and put it in upper case.
+All the [Graylog configurations](https://docs.graylog.org/docs/server-conf) can be set via environment variables. Just prefix the parameter name with `GRAYLOG_` and put it in upper case.
 
 There is an environment file (`.env.example`) where you can store these environment variables. Rename this to `.env` so docker-compose will pick it up.
 
