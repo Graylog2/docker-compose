@@ -4,7 +4,7 @@ services:
     image: "mongo:4.2"
     volumes:
       - "mongodb_data:/data/db"
-    restart: "always"
+    restart: "on-failure"
 
   elasticsearch:
     environment:
@@ -20,7 +20,7 @@ services:
         soft: -1
     volumes:
       - "es_data:/usr/share/elasticsearch/data"
-    restart: "always"
+    restart: "on-failure"
 
   graylog:
     image: "graylog/graylog-enterprise:4.2"
@@ -56,7 +56,7 @@ services:
     volumes:
       - "graylog_data:/usr/share/graylog/data/data"
       - "graylog_journal:/usr/share/graylog/data/journal"
-    restart: "always"
+    restart: "on-failure"
 volumes:
   mongodb_data:
   es_data:
