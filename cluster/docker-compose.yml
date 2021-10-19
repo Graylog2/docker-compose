@@ -1,17 +1,17 @@
 version: "3.8"
 
 services:
-  mongodb-01:
+  mongodb1:
     image: "mongo:4.2"
     volumes:
       - "mongodb-data-01:/data/db"
 
-  elasticsearch-01:
+  elasticsearch1:
     environment:
-      node.name: "elasticsearch-01"
+      node.name: "elasticsearch1"
       cluster.name: "es-docker-cluster"
-      discovery.seed_hosts: "elasticsearch-02,elasticsearch-03"
-      cluster.initial_master_nodes: "elasticsearch-01,elasticsearch-02,elasticsearch-03"
+      discovery.seed_hosts: "elasticsearch2,elasticsearch3"
+      cluster.initial_master_nodes: "elasticsearch1,elasticsearch2,elasticsearch3"
       bootstrap.memory_lock: "true"
       ES_JAVA_OPTS: "-Xms512m -Xmx512m"
     image: "docker.elastic.co/elasticsearch/elasticsearch:7.10.2"
@@ -22,12 +22,12 @@ services:
     volumes:
       - "elasticsearch-data-01:/usr/share/elasticsearch/data"
 
-  elasticsearch-02:
+  elasticsearch2:
     environment:
-      node.name: "elasticsearch-02"
+      node.name: "elasticsearch2"
       cluster.name: "es-docker-cluster"
-      discovery.seed_hosts: "elasticsearch-01,elasticsearch-03"
-      cluster.initial_master_nodes: "elasticsearch-01,elasticsearch-02,elasticsearch-03"
+      discovery.seed_hosts: "elasticsearch1,elasticsearch3"
+      cluster.initial_master_nodes: "elasticsearch1,elasticsearch2,elasticsearch3"
       bootstrap.memory_lock: "true"
       ES_JAVA_OPTS: "-Xms512m -Xmx512m"
     image: "docker.elastic.co/elasticsearch/elasticsearch:7.10.2"
@@ -38,12 +38,12 @@ services:
     volumes:
       - "elasticsearch-data-02:/usr/share/elasticsearch/data"
 
-  elasticsearch-03:
+  elasticsearch3:
     environment:
-      node.name: "elasticsearch-03"
+      node.name: "elasticsearch3"
       cluster.name: "es-docker-cluster"
-      discovery.seed_hosts: "elasticsearch-01,elasticsearch-02"
-      cluster.initial_master_nodes: "elasticsearch-01,elasticsearch-02,elasticsearch-03"
+      discovery.seed_hosts: "elasticsearch1,elasticsearch2"
+      cluster.initial_master_nodes: "elasticsearch1,elasticsearch2,elasticsearch3"
       bootstrap.memory_lock: "true"
       ES_JAVA_OPTS: "-Xms512m -Xmx512m"
     image: "docker.elastic.co/elasticsearch/elasticsearch:7.10.2"
@@ -54,37 +54,35 @@ services:
     volumes:
       - "elasticsearch-data-03:/usr/share/elasticsearch/data"
 
-  graylog-01:
+  graylog1:
     image: graylog/graylog:4.2
     depends_on:
-      - mongodb-01
-      - elasticsearch-01
-      - elasticsearch-02
-      - elasticsearch-03
+      - mongodb1
+      - elasticsearch1
+      - elasticsearch2
+      - elasticsearch3
     entrypoint: "/docker-entrypoint.sh"
     environment:
       GRAYLOG_PASSWORD_SECRET: "${GRAYLOG_PASSWORD_SECRET:?Please configure GRAYLOG_PASSWORD_SECRET in the .env file}"
       GRAYLOG_ROOT_PASSWORD_SHA2: "${GRAYLOG_ROOT_PASSWORD_SHA2:?Please configure GRAYLOG_ROOT_PASSWORD_SHA2 in the .env file}"
       GRAYLOG_HTTP_EXTERNAL_URI: "http://127.0.0.1:9000/"
-      GRAYLOG_ELASTICSEARCH_HOSTS: "http://elasticsearch-01:9200,http://elasticsearch-02:9201,http://elasticsearch-03:9202"
-      GRAYLOG_MONGODB_URI: "mongodb://mongodb-01:27017/graylog"
+      GRAYLOG_ELASTICSEARCH_HOSTS: "http://elasticsearch1:9200,http://elasticsearch2:9201,http://elasticsearch3:9202"
+      GRAYLOG_MONGODB_URI: "mongodb://mongodb1:27017/graylog"
     ports:
       - 9000:9000        # Graylog web interface and REST API
       - 1514:1514        # Syslog TCP
       - 1514:1514/udp    # Syslog UDP
       - 12201:12201      # GELF TCP
       - 12201:12201/udp  # GELF UDP
-    networks:
-      - graylog
     restart: "on-failure"
 
-  graylog-02:
+  graylog2:
     image: graylog/graylog:4.2
     depends_on:
-      - mongodb-01
-      - elasticsearch-01
-      - elasticsearch-02
-      - elasticsearch-03
+      - mongodb1
+      - elasticsearch1
+      - elasticsearch2
+      - elasticsearch3
     entrypoint: "/docker-entrypoint.sh"
     environment:
       GRAYLOG_IS_MASTER: "false"
@@ -92,25 +90,23 @@ services:
       GRAYLOG_ROOT_PASSWORD_SHA2: ${GRAYLOG_ROOT_PASSWORD_SHA2:?Please configure GRAYLOG_ROOT_PASSWORD_SHA2 in the .env file}
       GRAYLOG_HTTP_EXTERNAL_URI: http://127.0.0.1:9000/
       GRAYLOG_HTTP_BIND_ADDRESS: 0.0.0.0:9001
-      GRAYLOG_ELASTICSEARCH_HOSTS: http://elasticsearch-01:9200,http://elasticsearch-02:9201,http://elasticsearch-03:9202
-      GRAYLOG_MONGODB_URI: mongodb://mongodb-01:27017/graylog
+      GRAYLOG_ELASTICSEARCH_HOSTS: http://elasticsearch1:9200,http://elasticsearch2:9201,http://elasticsearch3:9202
+      GRAYLOG_MONGODB_URI: mongodb://mongodb1:27017/graylog
     ports:
       - 9001:9001         # Graylog web interface and REST API
       - 1515:1514         # Syslog TCP
       - 1515:1514/udp     # Syslog UDP
       - 12202:12201       # GELF TCP
       - 12202:12201/udp   # GELF UDP
-    networks:
-      - graylog
     restart: "on-failure"
 
-  graylog-03:
+  graylog3:
     image: graylog/graylog:4.2
     depends_on:
-      - mongodb-01
-      - elasticsearch-01
-      - elasticsearch-02
-      - elasticsearch-03
+      - mongodb1
+      - elasticsearch1
+      - elasticsearch2
+      - elasticsearch3
     entrypoint: "/docker-entrypoint.sh"
     environment:
       GRAYLOG_IS_MASTER: "false"
@@ -118,8 +114,8 @@ services:
       GRAYLOG_ROOT_PASSWORD_SHA2: ${GRAYLOG_ROOT_PASSWORD_SHA2:?Please configure GRAYLOG_ROOT_PASSWORD_SHA2 in the .env file}
       GRAYLOG_HTTP_EXTERNAL_URI: "http://127.0.0.1:9000/"
       GRAYLOG_HTTP_BIND_ADDRESS: "0.0.0.0:9002"
-      GRAYLOG_ELASTICSEARCH_HOSTS: "http://elasticsearch-01:9200,http://elasticsearch-02:9201,http://elasticsearch-03:9202"
-      GRAYLOG_MONGODB_URI: "mongodb://m01:27017/graylog"
+      GRAYLOG_ELASTICSEARCH_HOSTS: "http://elasticsearch1:9200,http://elasticsearch2:9201,http://elasticsearch3:9202"
+      GRAYLOG_MONGODB_URI: "mongodb://mongodb1:27017/graylog"
     ports:
       - "9002:9002"       # Graylog web interface and REST API
       - "1516:1514"       # Syslog TCP
