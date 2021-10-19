@@ -84,7 +84,7 @@ services:
       - 12201:12201/udp  # GELF UDP
     networks:
       - graylog
-    restart: "always"
+    restart: "on-failure"
 
   g02:
     image: graylog/graylog:4.1
@@ -110,7 +110,7 @@ services:
       - 12202:12201/udp   # GELF UDP
     networks:
       - graylog
-    restart: "always"
+    restart: "on-failure"
 
   g03:
     image: graylog/graylog:4.1
@@ -136,7 +136,7 @@ services:
       - "12203:12201/udp" # GELF UDP
     networks:
       - graylog
-    restart: "always"
+    restart: "on-failure"
 
 volumes:
   m01db:
