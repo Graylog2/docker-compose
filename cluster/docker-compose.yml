@@ -3,6 +3,7 @@ version: "3.8"
 services:
   mongodb1:
     image: "mongo:4.2"
+    hostname: "mongodb1"
     command: ["mongod", "--bind_ip_all", "--replSet", "rs0"]
     volumes:
       - "mongodb-data-01:/data/db"
@@ -12,6 +13,7 @@ services:
 
   mongodb2:
     image: "mongo:4.2"
+    hostname: "mongodb2"
     command: ["mongod", "--bind_ip_all", "--replSet", "rs0"]
     volumes:
       - "mongodb-data-02:/data/db"
@@ -19,6 +21,7 @@ services:
 
   mongodb3:
     image: "mongo:4.2"
+    hostname: "mongodb3"
     command: ["mongod", "--bind_ip_all", "--replSet", "rs0"]
     volumes:
       - "mongodb-data-03:/data/db"
@@ -33,6 +36,7 @@ services:
       bootstrap.memory_lock: "true"
       ES_JAVA_OPTS: "-Xms512m -Xmx512m"
     image: "docker.elastic.co/elasticsearch/elasticsearch-oss:7.10.2"
+    hostname: "elasticsearch1"
     ulimits:
       memlock:
         soft: -1
@@ -50,6 +54,7 @@ services:
       bootstrap.memory_lock: "true"
       ES_JAVA_OPTS: "-Xms512m -Xmx512m"
     image: "docker.elastic.co/elasticsearch/elasticsearch-oss:7.10.2"
+    hostname: "elasticsearch2"
     ulimits:
       memlock:
         soft: -1
@@ -67,6 +72,7 @@ services:
       bootstrap.memory_lock: "true"
       ES_JAVA_OPTS: "-Xms512m -Xmx512m"
     image: "docker.elastic.co/elasticsearch/elasticsearch-oss:7.10.2"
+    hostname: "elasticsearch3"
     ulimits:
       memlock:
         soft: -1
@@ -77,6 +83,7 @@ services:
 
   graylog1:
     image: graylog/graylog:4.2
+    hostname: "graylog1"
     depends_on:
       - mongodb1
       - elasticsearch1
@@ -99,6 +106,7 @@ services:
 
   graylog2:
     image: graylog/graylog:4.2
+    hostname: "graylog2"
     depends_on:
       - mongodb1
       - elasticsearch1
@@ -123,6 +131,7 @@ services:
 
   graylog3:
     image: graylog/graylog:4.2
+    hostname: "graylog3"
     depends_on:
       - mongodb1
       - elasticsearch1
