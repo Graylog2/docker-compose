@@ -15,8 +15,6 @@ services:
     command: ["mongod", "--bind_ip_all", "--replSet", "rs0"]
     volumes:
       - "mongodb-data-02:/data/db"
-      - "./mongodb/initdb.d:/docker-entrypoint-initdb.d"
-      - "./mongodb/init-replset.js:/init-replset.js"
     restart: "on-failure"
 
   mongodb3:
@@ -24,8 +22,6 @@ services:
     command: ["mongod", "--bind_ip_all", "--replSet", "rs0"]
     volumes:
       - "mongodb-data-03:/data/db"
-      - "./mongodb/initdb.d:/docker-entrypoint-initdb.d"
-      - "./mongodb/init-replset.js:/init-replset.js"
     restart: "on-failure"
 
   elasticsearch1:
