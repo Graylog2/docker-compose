@@ -9,7 +9,7 @@ services:
 
   elasticsearch:
     environment:
-      ES_JAVA_OPTS: "-Xms1g -Xmx1g"
+      ES_JAVA_OPTS: "-Xms1g -Xmx1g -Dlog4j2.formatMsgNoLookups=true"
       bootstrap.memory_lock: "true"
       discovery.type: "single-node"
       http.host: "0.0.0.0"
