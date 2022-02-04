@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   mongodb:
-    image: "mongo:4.2"
+    image: "mongo:4.4.12"
     volumes:
       - "mongodb_data:/data/db"
     restart: "on-failure"
@@ -24,7 +24,7 @@ services:
     restart: "on-failure"
 
   graylog:
-    image: "graylog/graylog:4.2"
+    image: "graylog/graylog:4.2.6"
     depends_on:
       elasticsearch:
         condition: "service_started"
