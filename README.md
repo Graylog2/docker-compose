@@ -36,3 +36,8 @@ It's as simple as that!
 Graylog itself is licensed under the Server Side Public License (SSPL), see [license information](https://www.mongodb.com/licensing/server-side-public-license).
 
 This Docker image is licensed under the Apache 2.0 license, see [LICENSE](LICENSE).
+
+
+### Infrastructure model
+
+![Infrastructure model](.infragenie/infrastructure_model.png)
