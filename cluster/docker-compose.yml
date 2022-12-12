@@ -29,16 +29,14 @@ services:
 
   opensearch1:
     image: "opensearchproject/opensearch:2.4.0"
-    volumes:
-      - opensearch-data-01:/usr/share/opensearch/data
+    hostname: "opensearch1"
     environment:
-      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m -Dlog4j2.formatMsgNoLookups=true"
+      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
       - "node.name=opensearch1"
       - "cluster.name=os-docker-cluster"
       - "discovery.seed_hosts=opensearch2,opensearch3"
       - "cluster.initial_master_nodes=opensearch1,opensearch2,opensearch3"
       - "bootstrap.memory_lock=true"
-      - "logger.deprecation.level=warn"
       - "action.auto_create_index=false"
       - "plugins.security.ssl.http.enabled=false"
       - "plugins.security.disabled=true"
@@ -46,20 +44,20 @@ services:
       memlock:
         hard: -1
         soft: -1
+    volumes:
+      - "opensearch-data-01:/usr/share/opensearch/data"
     restart: "on-failure"
 
   opensearch2:
     image: "opensearchproject/opensearch:2.4.0"
-    volumes:
-      - opensearch-data-02:/usr/share/opensearch/data
+    hostname: "opensearch2"
     environment:
-      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m -Dlog4j2.formatMsgNoLookups=true"
+      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
       - "node.name=opensearch2"
       - "cluster.name=os-docker-cluster"
       - "discovery.seed_hosts=opensearch1,opensearch3"
       - "cluster.initial_master_nodes=opensearch1,opensearch2,opensearch3"
       - "bootstrap.memory_lock=true"
-      - "logger.deprecation.level=warn"
       - "action.auto_create_index=false"
       - "plugins.security.ssl.http.enabled=false"
       - "plugins.security.disabled=true"
@@ -67,20 +65,20 @@ services:
       memlock:
         hard: -1
         soft: -1
+    volumes:
+      - "opensearch-data-02:/usr/share/opensearch/data"
     restart: "on-failure"
 
   opensearch3:
     image: "opensearchproject/opensearch:2.4.0"
-    volumes:
-      - opensearch-data-03:/usr/share/opensearch/data
+    hostname: "opensearch3"
     environment:
-      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m -Dlog4j2.formatMsgNoLookups=true"
+      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
       - "node.name=opensearch3"
       - "cluster.name=os-docker-cluster"
       - "discovery.seed_hosts=opensearch1,opensearch2"
       - "cluster.initial_master_nodes=opensearch1,opensearch2,opensearch3"
       - "bootstrap.memory_lock=true"
-      - "logger.deprecation.level=warn"
       - "action.auto_create_index=false"
       - "plugins.security.ssl.http.enabled=false"
       - "plugins.security.disabled=true"
@@ -88,10 +86,12 @@ services:
       memlock:
         hard: -1
         soft: -1
+    volumes:
+      - "opensearch-data-03:/usr/share/opensearch/data"
     restart: "on-failure"
 
   graylog1:
-    image: "graylog/graylog:5.0"
+    image: "${GRAYLOG_IMAGE:-graylog/graylog:5.0}"
     hostname: "graylog1"
     depends_on:
       - "mongodb1"
@@ -119,7 +119,7 @@ services:
     restart: "on-failure"
 
   graylog2:
-    image: "graylog/graylog:5.0"
+    image: "${GRAYLOG_IMAGE:-graylog/graylog:5.0}"
     hostname: "graylog2"
     depends_on:
       - "mongodb1"
@@ -149,7 +149,7 @@ services:
     restart: "on-failure"
 
   graylog3:
-    image: "graylog/graylog:5.0"
+    image: "${GRAYLOG_IMAGE:-graylog/graylog:5.0}"
     hostname: "graylog3"
     depends_on:
       - "mongodb1"
