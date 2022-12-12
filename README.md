@@ -6,13 +6,13 @@ This is a set of [Docker Compose](https://docs.docker.com/compose/) files that a
 
 ## Prerequisites
 - [Docker](https://docs.docker.com/engine/install/)
-- [Docker-Compose](https://docs.docker.com/compose/install/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
 
 ## Configure Graylog
 
 All the [Graylog configurations](https://docs.graylog.org/docs/server-conf) can be set via environment variables. Just prefix the parameter name with `GRAYLOG_` and put it in upper case.
 
-There is an environment file (`.env.example`) where you can store these environment variables. Rename this to `.env` so docker-compose will pick it up.
+There is an environment file (`.env.example`) where you can store these environment variables. Rename this to `.env` so Docker Compose will pick it up.
 
       cp .env.example .env
 
@@ -23,11 +23,11 @@ There is an environment file (`.env.example`) where you can store these environm
 
 After you've configured `GRAYLOG_PASSWORD_SECRET` and `GRAYLOG_ROOT_PASSWORD_SHA2`, run these commands to start the instance:
 
-    docker-compose up
+    docker compose up
 
 To start it daemonized, run:
 
-    docker-compose up -d
+    docker compose up -d
 
 It's as simple as that!
 
