@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   mongodb1:
-    image: "mongo:6.0"
+    image: "mongo:5.0"
     hostname: "mongodb1"
     command: ["mongod", "--bind_ip_all", "--replSet", "rs0"]
     volumes:
@@ -12,7 +12,7 @@ services:
     restart: "on-failure"
 
   mongodb2:
-    image: "mongo:6.0"
+    image: "mongo:5.0"
     hostname: "mongodb2"
     command: ["mongod", "--bind_ip_all", "--replSet", "rs0"]
     volumes:
@@ -20,7 +20,7 @@ services:
     restart: "on-failure"
 
   mongodb3:
-    image: "mongo:6.0"
+    image: "mongo:5.0"
     hostname: "mongodb3"
     command: ["mongod", "--bind_ip_all", "--replSet", "rs0"]
     volumes:
@@ -105,11 +105,10 @@ services:
       GRAYLOG_PASSWORD_SECRET: "${GRAYLOG_PASSWORD_SECRET:?Please configure GRAYLOG_PASSWORD_SECRET in the .env file}"
       GRAYLOG_ROOT_PASSWORD_SHA2: "${GRAYLOG_ROOT_PASSWORD_SHA2:?Please configure GRAYLOG_ROOT_PASSWORD_SHA2 in the .env file}"
       GRAYLOG_HTTP_EXTERNAL_URI: "http://127.0.0.1:9000/"
-      GRAYLOG_HTTP_BIND_ADDRESS: "0.0.0.0:9000"
       GRAYLOG_ELASTICSEARCH_HOSTS: "http://opensearch1:9200,http://opensearch2:9201,http://opensearch3:9202"
       GRAYLOG_MONGODB_URI: "mongodb://mongodb1:27017,mongodb2:27017,mongodb3:27017/graylog"
     ports:
-      #- "9000:9000"        # Graylog web interface and REST API
+      - "9000:9000"        # Graylog web interface and REST API
       - "1514:1514"        # Syslog TCP
       - "1514:1514/udp"    # Syslog UDP
       - "12201:12201"      # GELF TCP
@@ -134,12 +133,12 @@ services:
       GRAYLOG_IS_MASTER: "false"
       GRAYLOG_PASSWORD_SECRET: "${GRAYLOG_PASSWORD_SECRET:?Please configure GRAYLOG_PASSWORD_SECRET in the .env file}"
       GRAYLOG_ROOT_PASSWORD_SHA2: "${GRAYLOG_ROOT_PASSWORD_SHA2:?Please configure GRAYLOG_ROOT_PASSWORD_SHA2 in the .env file}"
-      GRAYLOG_HTTP_EXTERNAL_URI: "http://127.0.0.1:9001/"
+      GRAYLOG_HTTP_EXTERNAL_URI: "http://127.0.0.1:9000/"
       GRAYLOG_HTTP_BIND_ADDRESS: "0.0.0.0:9001"
       GRAYLOG_ELASTICSEARCH_HOSTS: "http://opensearch1:9200,http://opensearch2:9201,http://opensearch3:9202"
       GRAYLOG_MONGODB_URI: "mongodb://mongodb1:27017,mongodb2:27017,mongodb3:27017/graylog"
     ports:
-      #- "9001:9001"         # Graylog web interface and REST API
+      - "9001:9001"         # Graylog web interface and REST API
       - "1515:1514"         # Syslog TCP
       - "1515:1514/udp"     # Syslog UDP
       - "12202:12201"       # GELF TCP
@@ -164,12 +163,12 @@ services:
       GRAYLOG_IS_MASTER: "false"
       GRAYLOG_PASSWORD_SECRET: "${GRAYLOG_PASSWORD_SECRET:?Please configure GRAYLOG_PASSWORD_SECRET in the .env file}"
       GRAYLOG_ROOT_PASSWORD_SHA2: "${GRAYLOG_ROOT_PASSWORD_SHA2:?Please configure GRAYLOG_ROOT_PASSWORD_SHA2 in the .env file}"
-      GRAYLOG_HTTP_EXTERNAL_URI: "http://127.0.0.1:9002/"
+      GRAYLOG_HTTP_EXTERNAL_URI: "http://127.0.0.1:9000/"
       GRAYLOG_HTTP_BIND_ADDRESS: "0.0.0.0:9002"
       GRAYLOG_ELASTICSEARCH_HOSTS: "http://opensearch1:9200,http://opensearch2:9201,http://opensearch3:9202"
       GRAYLOG_MONGODB_URI: "mongodb://mongodb1:27017,mongodb2:27017,mongodb3:27017/graylog"
     ports:
-      #- "9002:9002"       # Graylog web interface and REST API
+      - "9002:9002"       # Graylog web interface and REST API
       - "1516:1514"       # Syslog TCP
       - "1516:1514/udp"   # Syslog UDP
       - "12203:12201"     # GELF TCP
@@ -178,24 +177,6 @@ services:
       - "graylog-data-03:/usr/share/graylog/data/data"
       - "graylog-journal-03:/usr/share/graylog/data/journal"
     restart: "on-failure"
-
-  nginx0:
-    image: "nginx:stable"
-    hostname: "nginx"
-    volumes:
-        - type: bind
-          source: "./nginx"
-          target: "/etc/nginx/conf.d"
-        - type: bind
-          source: "./nginx/logs"
-          target: "var/log/nginx"
-    depends_on:
-      - "graylog1"
-      - "graylog2"
-      - "graylog3"
-    ports: 
-      - "80:80"
-      - "443:443"
 
 volumes:
   opensearch-data-01:
@@ -210,4 +191,3 @@ volumes:
   mongodb-data-01:
   mongodb-data-02:
   mongodb-data-03:
-
