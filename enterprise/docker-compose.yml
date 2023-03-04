@@ -20,6 +20,9 @@ services:
       memlock:
         hard: -1
         soft: -1
+      nofile:
+        soft: "65536"
+        hard: "65536"
     volumes:
       - "os_data:/usr/share/opensearch/data"
     restart: "on-failure"
