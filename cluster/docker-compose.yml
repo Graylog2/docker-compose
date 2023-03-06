@@ -44,6 +44,9 @@ services:
       memlock:
         hard: -1
         soft: -1
+      nofile:
+        soft: "65536"
+        hard: "65536"
     volumes:
       - "opensearch-data-01:/usr/share/opensearch/data"
     restart: "on-failure"
@@ -65,6 +68,9 @@ services:
       memlock:
         hard: -1
         soft: -1
+      nofile:
+        soft: "65536"
+        hard: "65536"
     volumes:
       - "opensearch-data-02:/usr/share/opensearch/data"
     restart: "on-failure"
@@ -86,6 +92,9 @@ services:
       memlock:
         hard: -1
         soft: -1
+      nofile:
+        soft: "65536"
+        hard: "65536"
     volumes:
       - "opensearch-data-03:/usr/share/opensearch/data"
     restart: "on-failure"
