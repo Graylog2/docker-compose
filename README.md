@@ -29,6 +29,16 @@ To start it daemonized, run:
 
     docker compose up -d
 
+Default client port is `9000`. So now you can navigate to `http://localhost:9000`. 
+
+Login:
+
+      admin
+      
+Password: 
+      
+      <your password from GRAYLOG_ROOT_PASSWORD_SHA2>
+
 It's as simple as that!
 
 ## License
