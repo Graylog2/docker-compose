@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  forwarder:
+    image: "graylog/graylog-forwarder:5.1"
+    environment:
+      GRAYLOG_FORWARDER_SERVER_HOSTNAME: "${GRAYLOG_FORWARDER_SERVER_HOSTNAME:?Please configure GRAYLOG_FORWARDER_SERVER_HOSTNAME in the .env file}"
+      GRAYLOG_FORWARDER_GRPC_API_TOKEN: "${GRAYLOG_FORWARDER_GRPC_API_TOKEN:?Please configure GRAYLOG_FORWARDER_GRPC_API_TOKEN in the .env file}"
+      GRAYLOG_FORWARDER_GRPC_ENABLE_TLS: "${GRAYLOG_FORWARDER_GRPC_ENABLE_TLS:-true}"
+      # The explicit GRAYLOG_NODE_ID_FILE setting is only required when
+      # running version <=5.1-1 of the Forwarder image.
+      #GRAYLOG_NODE_ID_FILE: "/var/lib/graylog-forwarder/node-id"
+    ports:
+      - "5044:5044/tcp"   # Beats
+      - "5140:5140/udp"   # Syslog
+      - "5140:5140/tcp"   # Syslog
+      - "5555:5555/tcp"   # RAW TCP
+      - "5555:5555/udp"   # RAW TCP
+      - "12201:12201/tcp" # GELF TCP
+      - "12201:12201/udp" # GELF UDP
+      #- "10000:10000/tcp" # Custom TCP port
+      #- "10000:10000/udp" # Custom UDP port
+    volumes:
+      - "forwarder-data:/var/lib/graylog-forwarder"
+      #- "/path/to/custom/jvm.options:/etc/graylog/forwarder/jvm.options"
+    restart: "on-failure"
+
+volumes:
+  forwarder-data:
