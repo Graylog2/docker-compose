@@ -7,7 +7,9 @@ services:
       GRAYLOG_FORWARDER_SERVER_HOSTNAME: "${GRAYLOG_FORWARDER_SERVER_HOSTNAME:?Please configure GRAYLOG_FORWARDER_SERVER_HOSTNAME in the .env file}"
       GRAYLOG_FORWARDER_GRPC_API_TOKEN: "${GRAYLOG_FORWARDER_GRPC_API_TOKEN:?Please configure GRAYLOG_FORWARDER_GRPC_API_TOKEN in the .env file}"
       GRAYLOG_FORWARDER_GRPC_ENABLE_TLS: "${GRAYLOG_FORWARDER_GRPC_ENABLE_TLS:-true}"
-      GRAYLOG_NODE_ID_FILE: "/var/lib/graylog-forwarder/node-id"
+      # The explicit GRAYLOG_NODE_ID_FILE setting is only required when
+      # running version <=5.1-1 of the Forwarder image.
+      #GRAYLOG_NODE_ID_FILE: "/var/lib/graylog-forwarder/node-id"
     ports:
       - "5044:5044/tcp"   # Beats
       - "5140:5140/udp"   # Syslog
