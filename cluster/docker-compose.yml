@@ -125,6 +125,7 @@ services:
     volumes:
       - "graylog-data-01:/usr/share/graylog/data/data"
       - "graylog-journal-01:/usr/share/graylog/data/journal"
+      - "graylog-cfg-01:/usr/share/graylog/data/config"
     restart: "on-failure"
 
   graylog2:
@@ -155,6 +156,7 @@ services:
     volumes:
       - "graylog-data-02:/usr/share/graylog/data/data"
       - "graylog-journal-02:/usr/share/graylog/data/journal"
+      - "graylog-cfg-02:/usr/share/graylog/data/config"
     restart: "on-failure"
 
   graylog3:
@@ -185,6 +187,7 @@ services:
     volumes:
       - "graylog-data-03:/usr/share/graylog/data/data"
       - "graylog-journal-03:/usr/share/graylog/data/journal"
+      - "graylog-cfg-03:/usr/share/graylog/data/config"
     restart: "on-failure"
 
 volumes:
@@ -197,6 +200,9 @@ volumes:
   graylog-journal-01:
   graylog-journal-02:
   graylog-journal-03:
+  graylog-cfg-01:
+  graylog-cfg-02:
+  graylog-cfg-03:
   mongodb-data-01:
   mongodb-data-02:
   mongodb-data-03:

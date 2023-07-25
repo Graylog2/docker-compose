@@ -60,6 +60,7 @@ services:
     volumes:
       - "graylog_data:/usr/share/graylog/data/data"
       - "graylog_journal:/usr/share/graylog/data/journal"
+      - "graylog_cfg:/usr/share/graylog/data/config"
     restart: "on-failure"
 
 volumes:
@@ -67,3 +68,4 @@ volumes:
   os_data:
   graylog_data:
   graylog_journal:
+  graylog_cfg:
