@@ -27,19 +27,21 @@ services:
       - "mongodb-data-03:/data/db"
     restart: "on-failure"
 
-  opensearch1:
-    image: "opensearchproject/opensearch:2.4.0"
-    hostname: "opensearch1"
+  datanode1:
+    image: "${DATANODE_IMAGE:-graylog/graylog-datanode:5.2}"
+    hostname: datanode1
+    depends_on:
+      - "mongodb1"
+      - "mongodb2"
+      - "mongodb3"
     environment:
-      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
-      - "node.name=opensearch1"
-      - "cluster.name=os-docker-cluster"
-      - "discovery.seed_hosts=opensearch2,opensearch3"
-      - "cluster.initial_master_nodes=opensearch1,opensearch2,opensearch3"
-      - "bootstrap.memory_lock=true"
-      - "action.auto_create_index=false"
-      - "plugins.security.ssl.http.enabled=false"
-      - "plugins.security.disabled=true"
+      GRAYLOG_DATANODE_NODE_ID_FILE: "/var/lib/graylog-datanode/node-id"
+      GRAYLOG_DATANODE_PASSWORD_SECRET: "${GRAYLOG_PASSWORD_SECRET:?Please configure GRAYLOG_PASSWORD_SECRET in the .env file}"
+      GRAYLOG_DATANODE_ROOT_PASSWORD_SHA2: "${GRAYLOG_ROOT_PASSWORD_SHA2:?Please configure GRAYLOG_ROOT_PASSWORD_SHA2 in the .env file}"
+      GRAYLOG_DATANODE_MONGODB_URI: "mongodb://mongodb1:27017,mongodb2:27017,mongodb3:27017/graylog"
+      GRAYLOG_DATANODE_HOSTNAME: "datanode1"
+      GRAYLOG_DATANODE_CLUSTER_INITIAL_MANAGER_NODES: "datanode1,datanode2,datanode3"
+      GRAYLOG_DATANODE_OPENSEARCH_DISCOVERY_SEED_HOSTS: "datanode2,datanode3"
     ulimits:
       memlock:
         hard: -1
@@ -47,23 +49,27 @@ services:
       nofile:
         soft: 65536
         hard: 65536
+    ports:
+      - "8999:8999/tcp"   # DataNode API
     volumes:
-      - "opensearch-data-01:/usr/share/opensearch/data"
+      - "graylog-datanode-01:/var/lib/graylog-datanode"
     restart: "on-failure"
 
-  opensearch2:
-    image: "opensearchproject/opensearch:2.4.0"
-    hostname: "opensearch2"
+  datanode2:
+    image: "${DATANODE_IMAGE:-graylog/graylog-datanode:5.2}"
+    hostname: datanode2
+    depends_on:
+      - "mongodb1"
+      - "mongodb2"
+      - "mongodb3"
     environment:
-      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
-      - "node.name=opensearch2"
-      - "cluster.name=os-docker-cluster"
-      - "discovery.seed_hosts=opensearch1,opensearch3"
-      - "cluster.initial_master_nodes=opensearch1,opensearch2,opensearch3"
-      - "bootstrap.memory_lock=true"
-      - "action.auto_create_index=false"
-      - "plugins.security.ssl.http.enabled=false"
-      - "plugins.security.disabled=true"
+      GRAYLOG_DATANODE_NODE_ID_FILE: "/var/lib/graylog-datanode/node-id"
+      GRAYLOG_DATANODE_PASSWORD_SECRET: "${GRAYLOG_PASSWORD_SECRET:?Please configure GRAYLOG_PASSWORD_SECRET in the .env file}"
+      GRAYLOG_DATANODE_ROOT_PASSWORD_SHA2: "${GRAYLOG_ROOT_PASSWORD_SHA2:?Please configure GRAYLOG_ROOT_PASSWORD_SHA2 in the .env file}"
+      GRAYLOG_DATANODE_MONGODB_URI: "mongodb://mongodb1:27017,mongodb2:27017,mongodb3:27017/graylog"
+      GRAYLOG_DATANODE_HOSTNAME: "datanode2"
+      GRAYLOG_DATANODE_CLUSTER_INITIAL_MANAGER_NODES: "datanode1,datanode2,datanode3"
+      GRAYLOG_DATANODE_OPENSEARCH_DISCOVERY_SEED_HOSTS: "datanode1,datanode3"
     ulimits:
       memlock:
         hard: -1
@@ -71,23 +77,27 @@ services:
       nofile:
         soft: 65536
         hard: 65536
+    ports:
+      - "8998:8999/tcp"   # DataNode API
     volumes:
-      - "opensearch-data-02:/usr/share/opensearch/data"
+      - "graylog-datanode-02:/var/lib/graylog-datanode"
     restart: "on-failure"
 
-  opensearch3:
-    image: "opensearchproject/opensearch:2.4.0"
-    hostname: "opensearch3"
+  datanode3:
+    image: "${DATANODE_IMAGE:-graylog/graylog-datanode:5.2}"
+    hostname: datanode3
+    depends_on:
+      - "mongodb1"
+      - "mongodb2"
+      - "mongodb3"
     environment:
-      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
-      - "node.name=opensearch3"
-      - "cluster.name=os-docker-cluster"
-      - "discovery.seed_hosts=opensearch1,opensearch2"
-      - "cluster.initial_master_nodes=opensearch1,opensearch2,opensearch3"
-      - "bootstrap.memory_lock=true"
-      - "action.auto_create_index=false"
-      - "plugins.security.ssl.http.enabled=false"
-      - "plugins.security.disabled=true"
+      GRAYLOG_DATANODE_NODE_ID_FILE: "/var/lib/graylog-datanode/node-id"
+      GRAYLOG_DATANODE_PASSWORD_SECRET: "${GRAYLOG_PASSWORD_SECRET:?Please configure GRAYLOG_PASSWORD_SECRET in the .env file}"
+      GRAYLOG_DATANODE_ROOT_PASSWORD_SHA2: "${GRAYLOG_ROOT_PASSWORD_SHA2:?Please configure GRAYLOG_ROOT_PASSWORD_SHA2 in the .env file}"
+      GRAYLOG_DATANODE_MONGODB_URI: "mongodb://mongodb1:27017,mongodb2:27017,mongodb3:27017/graylog"
+      GRAYLOG_DATANODE_HOSTNAME: "datanode3"
+      GRAYLOG_DATANODE_CLUSTER_INITIAL_MANAGER_NODES: "datanode1,datanode2,datanode3"
+      GRAYLOG_DATANODE_OPENSEARCH_DISCOVERY_SEED_HOSTS: "datanode1,datanode2"
     ulimits:
       memlock:
         hard: -1
@@ -95,26 +105,27 @@ services:
       nofile:
         soft: 65536
         hard: 65536
+    ports:
+      - "8997:8999/tcp"   # DataNode API
     volumes:
-      - "opensearch-data-03:/usr/share/opensearch/data"
+      - "graylog-datanode-03:/var/lib/graylog-datanode"
     restart: "on-failure"
 
   graylog1:
-    image: "${GRAYLOG_IMAGE:-graylog/graylog:5.0}"
+    image: "${GRAYLOG_IMAGE:-graylog/graylog:5.2}"
     hostname: "graylog1"
     depends_on:
       - "mongodb1"
       - "mongodb2"
       - "mongodb3"
-      - "opensearch1"
-      - "opensearch2"
-      - "opensearch3"
     entrypoint: "/docker-entrypoint.sh"
     environment:
       GRAYLOG_PASSWORD_SECRET: "${GRAYLOG_PASSWORD_SECRET:?Please configure GRAYLOG_PASSWORD_SECRET in the .env file}"
       GRAYLOG_ROOT_PASSWORD_SHA2: "${GRAYLOG_ROOT_PASSWORD_SHA2:?Please configure GRAYLOG_ROOT_PASSWORD_SHA2 in the .env file}"
       GRAYLOG_HTTP_EXTERNAL_URI: "http://127.0.0.1:9000/"
-      GRAYLOG_ELASTICSEARCH_HOSTS: "http://opensearch1:9200,http://opensearch2:9200,http://opensearch3:9200"
+      GRAYLOG_FEATURE_PREFLIGHT_WEB: "on"
+      GRAYLOG_ELASTICSEARCH_HOSTS: ""
+      GRAYLOG_TELEMETRY_ENABLED: false
       GRAYLOG_MONGODB_URI: "mongodb://mongodb1:27017,mongodb2:27017,mongodb3:27017/graylog"
     ports:
       - "9000:9000"        # Graylog web interface and REST API
@@ -128,15 +139,12 @@ services:
     restart: "on-failure"
 
   graylog2:
-    image: "${GRAYLOG_IMAGE:-graylog/graylog:5.0}"
+    image: "${GRAYLOG_IMAGE:-graylog/graylog:5.2}"
     hostname: "graylog2"
     depends_on:
       - "mongodb1"
       - "mongodb2"
       - "mongodb3"
-      - "opensearch1"
-      - "opensearch2"
-      - "opensearch3"
     entrypoint: "/docker-entrypoint.sh"
     environment:
       GRAYLOG_IS_MASTER: "false"
@@ -144,7 +152,9 @@ services:
       GRAYLOG_ROOT_PASSWORD_SHA2: "${GRAYLOG_ROOT_PASSWORD_SHA2:?Please configure GRAYLOG_ROOT_PASSWORD_SHA2 in the .env file}"
       GRAYLOG_HTTP_EXTERNAL_URI: "http://127.0.0.1:9000/"
       GRAYLOG_HTTP_BIND_ADDRESS: "0.0.0.0:9001"
-      GRAYLOG_ELASTICSEARCH_HOSTS: "http://opensearch1:9200,http://opensearch2:9200,http://opensearch3:9200"
+      GRAYLOG_FEATURE_PREFLIGHT_WEB: "on"
+      GRAYLOG_ELASTICSEARCH_HOSTS: ""
+      GRAYLOG_TELEMETRY_ENABLED: false
       GRAYLOG_MONGODB_URI: "mongodb://mongodb1:27017,mongodb2:27017,mongodb3:27017/graylog"
     ports:
       - "9001:9001"         # Graylog web interface and REST API
@@ -158,15 +168,12 @@ services:
     restart: "on-failure"
 
   graylog3:
-    image: "${GRAYLOG_IMAGE:-graylog/graylog:5.0}"
+    image: "${GRAYLOG_IMAGE:-graylog/graylog:5.2}"
     hostname: "graylog3"
     depends_on:
       - "mongodb1"
       - "mongodb2"
       - "mongodb3"
-      - "opensearch1"
-      - "opensearch2"
-      - "opensearch3"
     entrypoint: "/docker-entrypoint.sh"
     environment:
       GRAYLOG_IS_MASTER: "false"
@@ -174,7 +181,9 @@ services:
       GRAYLOG_ROOT_PASSWORD_SHA2: "${GRAYLOG_ROOT_PASSWORD_SHA2:?Please configure GRAYLOG_ROOT_PASSWORD_SHA2 in the .env file}"
       GRAYLOG_HTTP_EXTERNAL_URI: "http://127.0.0.1:9000/"
       GRAYLOG_HTTP_BIND_ADDRESS: "0.0.0.0:9002"
-      GRAYLOG_ELASTICSEARCH_HOSTS: "http://opensearch1:9200,http://opensearch2:9200,http://opensearch3:9200"
+      GRAYLOG_FEATURE_PREFLIGHT_WEB: "on"
+      GRAYLOG_ELASTICSEARCH_HOSTS: ""
+      GRAYLOG_TELEMETRY_ENABLED: false
       GRAYLOG_MONGODB_URI: "mongodb://mongodb1:27017,mongodb2:27017,mongodb3:27017/graylog"
     ports:
       - "9002:9002"       # Graylog web interface and REST API
@@ -188,9 +197,9 @@ services:
     restart: "on-failure"
 
 volumes:
-  opensearch-data-01:
-  opensearch-data-02:
-  opensearch-data-03:
+  graylog-datanode-01:
+  graylog-datanode-02:
+  graylog-datanode-03:
   graylog-data-01:
   graylog-data-02:
   graylog-data-03:
