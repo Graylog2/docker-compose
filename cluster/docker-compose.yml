@@ -28,7 +28,8 @@ services:
     restart: "on-failure"
 
   datanode1:
-    image: "${DATANODE_IMAGE:-graylog/graylog-datanode:5.2}"
+    #    image: "${DATANODE_IMAGE:-graylog/graylog-datanode:5.2}"
+    image: e44b9d8219fc
     hostname: datanode1
     depends_on:
       - "mongodb1"
@@ -56,7 +57,8 @@ services:
     restart: "on-failure"
 
   datanode2:
-    image: "${DATANODE_IMAGE:-graylog/graylog-datanode:5.2}"
+    #    image: "${DATANODE_IMAGE:-graylog/graylog-datanode:5.2}"
+    image: e44b9d8219fc
     hostname: datanode2
     depends_on:
       - "mongodb1"
@@ -84,7 +86,8 @@ services:
     restart: "on-failure"
 
   datanode3:
-    image: "${DATANODE_IMAGE:-graylog/graylog-datanode:5.2}"
+    #    image: "${DATANODE_IMAGE:-graylog/graylog-datanode:5.2}"
+    image: e44b9d8219fc
     hostname: datanode3
     depends_on:
       - "mongodb1"
@@ -124,7 +127,6 @@ services:
       GRAYLOG_ROOT_PASSWORD_SHA2: "${GRAYLOG_ROOT_PASSWORD_SHA2:?Please configure GRAYLOG_ROOT_PASSWORD_SHA2 in the .env file}"
       GRAYLOG_HTTP_EXTERNAL_URI: "http://127.0.0.1:9000/"
       GRAYLOG_FEATURE_PREFLIGHT_WEB: "on"
-      GRAYLOG_ELASTICSEARCH_HOSTS: ""
       GRAYLOG_TELEMETRY_ENABLED: false
       GRAYLOG_MONGODB_URI: "mongodb://mongodb1:27017,mongodb2:27017,mongodb3:27017/graylog"
     ports:
@@ -153,7 +155,6 @@ services:
       GRAYLOG_HTTP_EXTERNAL_URI: "http://127.0.0.1:9000/"
       GRAYLOG_HTTP_BIND_ADDRESS: "0.0.0.0:9001"
       GRAYLOG_FEATURE_PREFLIGHT_WEB: "on"
-      GRAYLOG_ELASTICSEARCH_HOSTS: ""
       GRAYLOG_TELEMETRY_ENABLED: false
       GRAYLOG_MONGODB_URI: "mongodb://mongodb1:27017,mongodb2:27017,mongodb3:27017/graylog"
     ports:
@@ -182,7 +183,6 @@ services:
       GRAYLOG_HTTP_EXTERNAL_URI: "http://127.0.0.1:9000/"
       GRAYLOG_HTTP_BIND_ADDRESS: "0.0.0.0:9002"
       GRAYLOG_FEATURE_PREFLIGHT_WEB: "on"
-      GRAYLOG_ELASTICSEARCH_HOSTS: ""
       GRAYLOG_TELEMETRY_ENABLED: false
       GRAYLOG_MONGODB_URI: "mongodb://mongodb1:27017,mongodb2:27017,mongodb3:27017/graylog"
     ports:

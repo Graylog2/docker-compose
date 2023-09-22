@@ -43,7 +43,6 @@ services:
       GRAYLOG_HTTP_BIND_ADDRESS: "0.0.0.0:9000"
       GRAYLOG_HTTP_EXTERNAL_URI: "http://localhost:9000/"
       GRAYLOG_FEATURE_PREFLIGHT_WEB: "on"
-      GRAYLOG_ELASTICSEARCH_HOSTS: ""
       GRAYLOG_TELEMETRY_ENABLED: false
       GRAYLOG_MONGODB_URI: "mongodb://mongodb:27017/graylog"
     ports:
