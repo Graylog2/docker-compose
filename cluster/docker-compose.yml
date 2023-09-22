@@ -28,8 +28,7 @@ services:
     restart: "on-failure"
 
   datanode1:
-    #    image: "${DATANODE_IMAGE:-graylog/graylog-datanode:5.2}"
-    image: e44b9d8219fc
+    image: "${DATANODE_IMAGE:-graylog/graylog-datanode:5.2}"
     hostname: datanode1
     depends_on:
       - "mongodb1"
@@ -57,8 +56,7 @@ services:
     restart: "on-failure"
 
   datanode2:
-    #    image: "${DATANODE_IMAGE:-graylog/graylog-datanode:5.2}"
-    image: e44b9d8219fc
+    image: "${DATANODE_IMAGE:-graylog/graylog-datanode:5.2}"
     hostname: datanode2
     depends_on:
       - "mongodb1"
@@ -86,8 +84,7 @@ services:
     restart: "on-failure"
 
   datanode3:
-    #    image: "${DATANODE_IMAGE:-graylog/graylog-datanode:5.2}"
-    image: e44b9d8219fc
+    image: "${DATANODE_IMAGE:-graylog/graylog-datanode:5.2}"
     hostname: datanode3
     depends_on:
       - "mongodb1"

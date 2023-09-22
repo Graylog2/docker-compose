@@ -8,8 +8,7 @@ services:
     restart: "on-failure"
 
   datanode:
-#    image: "${DATANODE_IMAGE:-graylog/graylog-datanode:5.2}"
-    image: e44b9d8219fc
+    image: "${DATANODE_IMAGE:-graylog/graylog-datanode:5.2}"
     environment:
       GRAYLOG_DATANODE_NODE_ID_FILE: "/var/lib/graylog-datanode/node-id"
       GRAYLOG_DATANODE_PASSWORD_SECRET: "${GRAYLOG_PASSWORD_SECRET:?Please configure GRAYLOG_PASSWORD_SECRET in the .env file}"
