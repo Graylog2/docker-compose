@@ -46,7 +46,6 @@ services:
       # To make reporting (headless_shell) work inside a Docker container
       GRAYLOG_REPORT_DISABLE_SANDBOX: "true"
       GRAYLOG_FEATURE_PREFLIGHT_WEB: "on"
-      GRAYLOG_TELEMETRY_ENABLED: false
     ports:
     - "5044:5044/tcp"   # Beats
     - "5140:5140/tcp"   # Syslog TCP

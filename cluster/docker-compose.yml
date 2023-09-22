@@ -124,7 +124,6 @@ services:
       GRAYLOG_ROOT_PASSWORD_SHA2: "${GRAYLOG_ROOT_PASSWORD_SHA2:?Please configure GRAYLOG_ROOT_PASSWORD_SHA2 in the .env file}"
       GRAYLOG_HTTP_EXTERNAL_URI: "http://127.0.0.1:9000/"
       GRAYLOG_FEATURE_PREFLIGHT_WEB: "on"
-      GRAYLOG_TELEMETRY_ENABLED: false
       GRAYLOG_MONGODB_URI: "mongodb://mongodb1:27017,mongodb2:27017,mongodb3:27017/graylog"
     ports:
       - "9000:9000"        # Graylog web interface and REST API
@@ -152,7 +151,6 @@ services:
       GRAYLOG_HTTP_EXTERNAL_URI: "http://127.0.0.1:9000/"
       GRAYLOG_HTTP_BIND_ADDRESS: "0.0.0.0:9001"
       GRAYLOG_FEATURE_PREFLIGHT_WEB: "on"
-      GRAYLOG_TELEMETRY_ENABLED: false
       GRAYLOG_MONGODB_URI: "mongodb://mongodb1:27017,mongodb2:27017,mongodb3:27017/graylog"
     ports:
       - "9001:9001"         # Graylog web interface and REST API
@@ -180,7 +178,6 @@ services:
       GRAYLOG_HTTP_EXTERNAL_URI: "http://127.0.0.1:9000/"
       GRAYLOG_HTTP_BIND_ADDRESS: "0.0.0.0:9002"
       GRAYLOG_FEATURE_PREFLIGHT_WEB: "on"
-      GRAYLOG_TELEMETRY_ENABLED: false
       GRAYLOG_MONGODB_URI: "mongodb://mongodb1:27017,mongodb2:27017,mongodb3:27017/graylog"
     ports:
       - "9002:9002"       # Graylog web interface and REST API
