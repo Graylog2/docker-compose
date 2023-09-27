@@ -40,8 +40,6 @@ services:
       GRAYLOG_DATANODE_ROOT_PASSWORD_SHA2: "${GRAYLOG_ROOT_PASSWORD_SHA2:?Please configure GRAYLOG_ROOT_PASSWORD_SHA2 in the .env file}"
       GRAYLOG_DATANODE_MONGODB_URI: "mongodb://mongodb1:27017,mongodb2:27017,mongodb3:27017/graylog"
       GRAYLOG_DATANODE_HOSTNAME: "datanode1"
-      GRAYLOG_DATANODE_CLUSTER_INITIAL_MANAGER_NODES: "datanode1,datanode2,datanode3"
-      GRAYLOG_DATANODE_OPENSEARCH_DISCOVERY_SEED_HOSTS: "datanode2,datanode3"
     ulimits:
       memlock:
         hard: -1
@@ -68,8 +66,6 @@ services:
       GRAYLOG_DATANODE_ROOT_PASSWORD_SHA2: "${GRAYLOG_ROOT_PASSWORD_SHA2:?Please configure GRAYLOG_ROOT_PASSWORD_SHA2 in the .env file}"
       GRAYLOG_DATANODE_MONGODB_URI: "mongodb://mongodb1:27017,mongodb2:27017,mongodb3:27017/graylog"
       GRAYLOG_DATANODE_HOSTNAME: "datanode2"
-      GRAYLOG_DATANODE_CLUSTER_INITIAL_MANAGER_NODES: "datanode1,datanode2,datanode3"
-      GRAYLOG_DATANODE_OPENSEARCH_DISCOVERY_SEED_HOSTS: "datanode1,datanode3"
     ulimits:
       memlock:
         hard: -1
@@ -96,8 +92,6 @@ services:
       GRAYLOG_DATANODE_ROOT_PASSWORD_SHA2: "${GRAYLOG_ROOT_PASSWORD_SHA2:?Please configure GRAYLOG_ROOT_PASSWORD_SHA2 in the .env file}"
       GRAYLOG_DATANODE_MONGODB_URI: "mongodb://mongodb1:27017,mongodb2:27017,mongodb3:27017/graylog"
       GRAYLOG_DATANODE_HOSTNAME: "datanode3"
-      GRAYLOG_DATANODE_CLUSTER_INITIAL_MANAGER_NODES: "datanode1,datanode2,datanode3"
-      GRAYLOG_DATANODE_OPENSEARCH_DISCOVERY_SEED_HOSTS: "datanode1,datanode2"
     ulimits:
       memlock:
         hard: -1
