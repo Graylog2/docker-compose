@@ -8,7 +8,7 @@ services:
     restart: "on-failure"
 
   datanode:
-    image: "${DATANODE_IMAGE:-graylog/graylog-datanode:dev}"
+    image: "${DATANODE_IMAGE:-graylog/graylog-datanode:5.2}"
     environment:
       GRAYLOG_DATANODE_NODE_ID_FILE: "/var/lib/graylog-datanode/node-id"
       GRAYLOG_DATANODE_PASSWORD_SECRET: "${GRAYLOG_PASSWORD_SECRET:?Please configure GRAYLOG_PASSWORD_SECRET in the .env file}"
@@ -45,7 +45,6 @@ services:
       GRAYLOG_MONGODB_URI: "mongodb://mongodb:27017/graylog"
       # To make reporting (headless_shell) work inside a Docker container
       GRAYLOG_REPORT_DISABLE_SANDBOX: "true"
-      GRAYLOG_FEATURE_PREFLIGHT_WEB: "on"
     ports:
     - "5044:5044/tcp"   # Beats
     - "5140:5140/tcp"   # Syslog TCP
