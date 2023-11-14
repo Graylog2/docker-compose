@@ -17,7 +17,7 @@ There is an environment file (`.env.example`) where you can store these environm
       cp .env.example .env
 
 
-**Important:** Be sure to to set the `GRAYLOG_PASSWORD_SECRET` and `GRAYLOG_ROOT_PASSWORD_SHA2` environment variables in the .env file! Graylog won't start without these.
+**Important:** Be sure to to set the `GRAYLOG_PASSWORD_SECRET` (needs to be atleast 16 characters long) and `GRAYLOG_ROOT_PASSWORD_SHA2` environment variables in the .env file! Graylog won't start without these.
 
 ## Starting Graylog
 
@@ -37,7 +37,7 @@ Login:
       
 Password: 
       
-      <your password from GRAYLOG_ROOT_PASSWORD_SHA2>
+      <your password from GRAYLOG_PASSWORD_SECRET>
 
 It's as simple as that!
 
