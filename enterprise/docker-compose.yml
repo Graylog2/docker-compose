@@ -7,15 +7,13 @@ services:
       - "mongodb_data:/data/db"
     restart: "on-failure"
 
-  opensearch:
-    image: "opensearchproject/opensearch:2.4.0"
+  datanode:
+    image: "${DATANODE_IMAGE:-graylog/graylog-datanode:5.2}"
     environment:
-      - "OPENSEARCH_JAVA_OPTS=-Xms1g -Xmx1g"
-      - "bootstrap.memory_lock=true"
-      - "discovery.type=single-node"
-      - "action.auto_create_index=false"
-      - "plugins.security.ssl.http.enabled=false"
-      - "plugins.security.disabled=true"
+      GRAYLOG_DATANODE_NODE_ID_FILE: "/var/lib/graylog-datanode/node-id"
+      GRAYLOG_DATANODE_PASSWORD_SECRET: "${GRAYLOG_PASSWORD_SECRET:?Please configure GRAYLOG_PASSWORD_SECRET in the .env file}"
+      GRAYLOG_DATANODE_ROOT_PASSWORD_SHA2: "${GRAYLOG_ROOT_PASSWORD_SHA2:?Please configure GRAYLOG_ROOT_PASSWORD_SHA2 in the .env file}"
+      GRAYLOG_DATANODE_MONGODB_URI: "mongodb://mongodb:27017/graylog"
     ulimits:
       memlock:
         hard: -1
@@ -23,26 +21,27 @@ services:
       nofile:
         soft: 65536
         hard: 65536
+    ports:
+      - "8999:8999/tcp"   # DataNode API
+      - "9200:9200/tcp"
+      - "9300:9300/tcp"
     volumes:
-      - "os_data:/usr/share/opensearch/data"
+      - "graylog-datanode:/var/lib/graylog-datanode"
     restart: "on-failure"
 
   graylog:
     hostname: "server"
-    image: "${GRAYLOG_IMAGE:-graylog/graylog-enterprise:5.0}"
+    image: "${GRAYLOG_IMAGE:-graylog/graylog-enterprise:5.2}"
     depends_on:
-      opensearch:
-        condition: "service_started"
       mongodb:
         condition: "service_started"
-    entrypoint: "/usr/bin/tini -- wait-for-it opensearch:9200 --  /docker-entrypoint.sh"
+    entrypoint: "/usr/bin/tini --  /docker-entrypoint.sh"
     environment:
-      GRAYLOG_NODE_ID_FILE: "/usr/share/graylog/data/config/node-id"
+      GRAYLOG_NODE_ID_FILE: "/usr/share/graylog/data/data/node-id"
       GRAYLOG_PASSWORD_SECRET: "${GRAYLOG_PASSWORD_SECRET:?Please configure GRAYLOG_PASSWORD_SECRET in the .env file}"
       GRAYLOG_ROOT_PASSWORD_SHA2: "${GRAYLOG_ROOT_PASSWORD_SHA2:?Please configure GRAYLOG_ROOT_PASSWORD_SHA2 in the .env file}"
       GRAYLOG_HTTP_BIND_ADDRESS: "0.0.0.0:9000"
       GRAYLOG_HTTP_EXTERNAL_URI: "http://localhost:9000/"
-      GRAYLOG_ELASTICSEARCH_HOSTS: "http://opensearch:9200"
       GRAYLOG_MONGODB_URI: "mongodb://mongodb:27017/graylog"
       # To make reporting (headless_shell) work inside a Docker container
       GRAYLOG_REPORT_DISABLE_SANDBOX: "true"
@@ -66,6 +65,6 @@ services:
 
 volumes:
   mongodb_data:
-  os_data:
+  graylog-datanode:
   graylog_data:
   graylog_journal:
