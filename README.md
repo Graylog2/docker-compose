@@ -36,7 +36,17 @@ Login:
       admin
       
 Password: 
-      
+
+If you're running the DataNode and it's the initial startup, use 
+
+      password from the logs of your first graylog node
+
+and after the preflight
+
+      <your password from GRAYLOG_ROOT_PASSWORD_SHA2>
+
+If you configured graylog to connect to OpenSearch directly, use
+
       <your password from GRAYLOG_ROOT_PASSWORD_SHA2>
 
 It's as simple as that!
