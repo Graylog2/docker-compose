@@ -8,6 +8,11 @@ This is a set of [Docker Compose](https://docs.docker.com/compose/) files that a
 - [Docker](https://docs.docker.com/engine/install/)
 - [Docker Compose](https://docs.docker.com/compose/install/)
 
+## Configure your OS
+
+Make sure to configure your OS or Docker to have the correct `vm.max_map_count` setting, see: [OpenSearch Docs](https://opensearch.org/docs/2.11/install-and-configure/install-opensearch/index/#important-settings)
+
+
 ## Configure Graylog
 
 All the [Graylog configurations](https://docs.graylog.org/docs/server-conf) can be set via environment variables. Just prefix the parameter name with `GRAYLOG_` and put it in upper case.
