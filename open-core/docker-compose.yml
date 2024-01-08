@@ -1,5 +1,8 @@
 version: "3.8"
 
+# For DataNode setup, graylog starts with a preflight UI, this is a change from just using OpenSearch/Elasticsearch.
+# Please take a look at the README at the top of this repo or the regular docs for more info.
+
 services:
   mongodb:
     image: "mongo:5.0"
@@ -7,6 +10,8 @@ services:
       - "mongodb_data:/data/db"
     restart: "on-failure"
 
+  # For DataNode setup, graylog starts with a preflight UI, this is a change from just using OpenSearch/Elasticsearch.
+  # Please take a look at the README at the top of this repo or the regular docs for more info.
   datanode:
     image: "${DATANODE_IMAGE:-graylog/graylog-datanode:5.2}"
     hostname: "datanode"
