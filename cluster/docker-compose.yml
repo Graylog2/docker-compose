@@ -3,6 +3,14 @@ version: "3.8"
 # For DataNode setup, graylog starts with a preflight UI, this is a change from just using OpenSearch/Elasticsearch.
 # Please take a look at the README at the top of this repo or the regular docs for more info.
 
+# to make sure that the SSL certificates outlive down/up and stop/start, we have to set IP addresses
+# this is not needed for single node clusters but only with opensearch in docker clusters
+networks:
+  graylog:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
+
 services:
   mongodb1:
     image: "mongo:5.0"
@@ -12,6 +20,9 @@ services:
       - "mongodb-data-01:/data/db"
       - "./mongodb/initdb.d:/docker-entrypoint-initdb.d"
       - "./mongodb/init-replset.js:/init-replset.js"
+    networks:
+      graylog:
+        ipv4_address: 172.20.0.2
     restart: "on-failure"
 
   mongodb2:
@@ -20,6 +31,9 @@ services:
     command: ["mongod", "--bind_ip_all", "--replSet", "rs0"]
     volumes:
       - "mongodb-data-02:/data/db"
+    networks:
+      graylog:
+        ipv4_address: 172.20.0.3
     restart: "on-failure"
 
   mongodb3:
@@ -28,6 +42,9 @@ services:
     command: ["mongod", "--bind_ip_all", "--replSet", "rs0"]
     volumes:
       - "mongodb-data-03:/data/db"
+    networks:
+      graylog:
+        ipv4_address: 172.20.0.4
     restart: "on-failure"
 
   # For DataNode setup, graylog starts with a preflight UI, this is a change from just using OpenSearch/Elasticsearch.
@@ -55,6 +72,9 @@ services:
       - "8999:8999/tcp"   # DataNode API
     volumes:
       - "graylog-datanode-01:/var/lib/graylog-datanode"
+    networks:
+      graylog:
+        ipv4_address: 172.20.0.5
     restart: "on-failure"
 
   # For DataNode setup, graylog starts with a preflight UI, this is a change from just using OpenSearch/Elasticsearch.
@@ -82,6 +102,9 @@ services:
       - "8998:8999/tcp"   # DataNode API
     volumes:
       - "graylog-datanode-02:/var/lib/graylog-datanode"
+    networks:
+      graylog:
+        ipv4_address: 172.20.0.6
     restart: "on-failure"
 
   # For DataNode setup, graylog starts with a preflight UI, this is a change from just using OpenSearch/Elasticsearch.
@@ -109,6 +132,9 @@ services:
       - "8997:8999/tcp"   # DataNode API
     volumes:
       - "graylog-datanode-03:/var/lib/graylog-datanode"
+    networks:
+      graylog:
+        ipv4_address: 172.20.0.7
     restart: "on-failure"
 
   graylog1:
@@ -134,6 +160,9 @@ services:
     volumes:
       - "graylog-data-01:/usr/share/graylog/data/data"
       - "graylog-journal-01:/usr/share/graylog/data/journal"
+    networks:
+      graylog:
+        ipv4_address: 172.20.0.8
     restart: "on-failure"
 
   graylog2:
@@ -161,6 +190,9 @@ services:
     volumes:
       - "graylog-data-02:/usr/share/graylog/data/data"
       - "graylog-journal-02:/usr/share/graylog/data/journal"
+    networks:
+      graylog:
+        ipv4_address: 172.20.0.9
     restart: "on-failure"
 
   graylog3:
@@ -188,6 +220,9 @@ services:
     volumes:
       - "graylog-data-03:/usr/share/graylog/data/data"
       - "graylog-journal-03:/usr/share/graylog/data/journal"
+    networks:
+      graylog:
+        ipv4_address: 172.20.0.10
     restart: "on-failure"
 
 volumes:
