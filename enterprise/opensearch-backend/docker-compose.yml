@@ -1,0 +1,73 @@
+services:
+  mongodb:
+    image: "mongo:${MONGODB_VERSION:-7.0}"
+    container_name: mongodb
+    volumes:
+      - "mongodb_data:/data/db"
+    restart: "on-failure"
+
+  opensearch:
+    image: "opensearchproject/opensearch:${OPENSEARCH_VERSION:-latest}"
+    container_name: opensearch
+    environment:
+      OPENSEARCH_JAVA_OPTS: "-Xms${OPENSEARCH_HEAP:-1g} -Xmx${OPENSEARCH_HEAP:-1g}"
+      OPENSEARCH_INITIAL_ADMIN_PASSWORD: "${OPENSEARCH_INITIAL_ADMIN_PASSWORD:?Please configure the OPENSEARCH_INITIAL_ADMIN_PASSWORD in the .env file}"
+      bootstrap.memory_lock: "true"
+      discovery.type: "single-node"
+      action.auto_create_index: "false"
+      plugins.security.ssl.http.enabled: "false"
+      plugins.security.disabled: "true"
+      DISABLE_INSTALL_DEMO_CONFIG: "true" # disables execution of install_demo_configuration.sh bundled with security plugin, which installs demo certificates and security configurations to OpenSearch
+    ulimits:
+      memlock:
+        hard: -1
+        soft: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    volumes:
+      - "opensearch_data:/usr/share/opensearch/data"
+    restart: "on-failure"
+
+  graylog:
+    image: "graylog/graylog-enterprise:${GRAYLOG_VERSION:-6.0}"
+    container_name: graylog
+    depends_on:
+      opensearch:
+        condition: "service_started"
+      mongodb:
+        condition: "service_started"
+    entrypoint: "/usr/bin/tini -- wait-for-it opensearch:9200 --  /docker-entrypoint.sh"
+    environment:
+      GRAYLOG_NODE_ID_FILE: "/usr/share/graylog/data/config/node-id"
+      GRAYLOG_PASSWORD_SECRET: "${GRAYLOG_PASSWORD_SECRET:?Please configure GRAYLOG_PASSWORD_SECRET in the .env file}"
+      GRAYLOG_ROOT_PASSWORD_SHA2: "${GRAYLOG_ROOT_PASSWORD_SHA2:?Please configure GRAYLOG_ROOT_PASSWORD_SHA2 in the .env file}"
+      GRAYLOG_HTTP_BIND_ADDRESS: "0.0.0.0:9000"
+      GRAYLOG_HTTP_EXTERNAL_URI: "http://localhost:9000/"
+      GRAYLOG_ELASTICSEARCH_HOSTS: "http://opensearch:9200"
+      GRAYLOG_MONGODB_URI: "mongodb://mongodb:27017/graylog"
+      # To make reporting (headless_shell) work inside a Docker container
+      GRAYLOG_REPORT_DISABLE_SANDBOX: "true"
+      GRAYLOG_SERVER_JAVA_OPTS: "-Xms${GRAYLOG_HEAP:-1g} -Xmx${GRAYLOG_HEAP:-1g}"
+    ports:
+      - "9000:9000/tcp"   # Server API
+      # Enable the rest as needed for inputs:
+      #- "5044:5044/tcp"   # Beats
+      #- "5140:5140/tcp"   # Syslog TCP
+      #- "5140:5140/udp"   # Syslog UDP
+      #- "5555:5555/tcp"   # RAW TCP
+      #- "5555:5555/udp"   # RAW TCP
+      #- "12201:12201/tcp" # GELF TCP
+      #- "12201:12201/udp" # GELF UDP
+      #- "13301:13301/tcp" # Forwarder data
+      #- "13302:13302/tcp" # Forwarder config
+    volumes:
+      - "graylog_data:/usr/share/graylog/data/data"
+      - "graylog_journal:/usr/share/graylog/data/journal"
+    restart: "on-failure"
+
+volumes:
+  mongodb_data:
+  opensearch_data:
+  graylog_data:
+  graylog_journal:
