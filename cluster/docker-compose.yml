@@ -50,7 +50,7 @@ services:
   # For DataNode setup, graylog starts with a preflight UI, this is a change from just using OpenSearch/Elasticsearch.
   # Please take a look at the README at the top of this repo or the regular docs for more info.
   datanode1:
-    image: "${DATANODE_IMAGE:-graylog/graylog-datanode:5.2}"
+    image: "${DATANODE_IMAGE:-graylog/graylog-datanode:6.0}"
     hostname: "datanode1"
     depends_on:
       - "mongodb1"
@@ -80,7 +80,7 @@ services:
   # For DataNode setup, graylog starts with a preflight UI, this is a change from just using OpenSearch/Elasticsearch.
   # Please take a look at the README at the top of this repo or the regular docs for more info.
   datanode2:
-    image: "${DATANODE_IMAGE:-graylog/graylog-datanode:5.2}"
+    image: "${DATANODE_IMAGE:-graylog/graylog-datanode:6.0}"
     hostname: "datanode2"
     depends_on:
       - "mongodb1"
@@ -110,7 +110,7 @@ services:
   # For DataNode setup, graylog starts with a preflight UI, this is a change from just using OpenSearch/Elasticsearch.
   # Please take a look at the README at the top of this repo or the regular docs for more info.
   datanode3:
-    image: "${DATANODE_IMAGE:-graylog/graylog-datanode:5.2}"
+    image: "${DATANODE_IMAGE:-graylog/graylog-datanode:6.0}"
     hostname: "datanode3"
     depends_on:
       - "mongodb1"
@@ -138,7 +138,7 @@ services:
     restart: "on-failure"
 
   graylog1:
-    image: "${GRAYLOG_IMAGE:-graylog/graylog:5.2}"
+    image: "${GRAYLOG_IMAGE:-graylog/graylog:6.0}"
     hostname: "graylog1"
     depends_on:
       - "mongodb1"
@@ -166,7 +166,7 @@ services:
     restart: "on-failure"
 
   graylog2:
-    image: "${GRAYLOG_IMAGE:-graylog/graylog:5.2}"
+    image: "${GRAYLOG_IMAGE:-graylog/graylog:6.0}"
     hostname: "graylog2"
     depends_on:
       - "mongodb1"
@@ -196,7 +196,7 @@ services:
     restart: "on-failure"
 
   graylog3:
-    image: "${GRAYLOG_IMAGE:-graylog/graylog:5.2}"
+    image: "${GRAYLOG_IMAGE:-graylog/graylog:6.0}"
     hostname: "graylog3"
     depends_on:
       - "mongodb1"

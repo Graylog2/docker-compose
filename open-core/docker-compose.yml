@@ -13,7 +13,7 @@ services:
   # For DataNode setup, graylog starts with a preflight UI, this is a change from just using OpenSearch/Elasticsearch.
   # Please take a look at the README at the top of this repo or the regular docs for more info.
   datanode:
-    image: "${DATANODE_IMAGE:-graylog/graylog-datanode:5.2}"
+    image: "${DATANODE_IMAGE:-graylog/graylog-datanode:6.0}"
     hostname: "datanode"
     environment:
       GRAYLOG_DATANODE_NODE_ID_FILE: "/var/lib/graylog-datanode/node-id"
@@ -37,7 +37,7 @@ services:
 
   graylog:
     hostname: "server"
-    image: "${GRAYLOG_IMAGE:-graylog/graylog:5.2}"
+    image: "${GRAYLOG_IMAGE:-graylog/graylog:6.0}"
     depends_on:
       mongodb:
         condition: "service_started"
