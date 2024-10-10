@@ -56,7 +56,8 @@ services:
         hard: 65536
     ports:
       - "8999:8999/tcp"   # DataNode API
-      - "9200:9200/tcp"
+      - "9201:9200/tcp"
+      - "9301:9300/tcp"
     volumes:
       - "graylog-datanode:/var/lib/graylog-datanode"
     restart: "on-failure"
