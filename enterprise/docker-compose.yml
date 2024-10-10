@@ -10,6 +10,33 @@ services:
       - "mongodb_data:/data/db"
     restart: "on-failure"
 
+  opensearch:
+    image: opensearchproject/opensearch:2.15.0
+    environment:
+      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "OPENSEARCH_INITIAL_ADMIN_PASSWORD=admi169+aaaXX"
+      - "discovery.type=single-node"
+      - "action.auto_create_index=false"
+      - "DISABLE_INSTALL_DEMO_CONFIG=true" # disables execution of install_demo_configuration.sh bundled with security plugin, which installs demo certificates and security configurations to OpenSearch
+      - "DISABLE_SECURITY_PLUGIN=true" # disables security plugin entirely in OpenSearch by setting plugins.security.disabled: true in opensearch.yml
+      - "bootstrap.memory_lock=true" # along with the memlock settings below, disables swapping
+      - "node.name=opensearch-node"
+      - "node.roles=cluster_manager,data,ingest,remote_cluster_client,search"
+      - "node.search.cache.size=10mb"
+      - "plugins.security.ssl.http.enabled=false"
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536 # maximum number of open files for the OpenSearch user, set to at least 65536 on modern systems
+        hard: 65536  
+    volumes:
+      - "opensearch:/usr/share/opensearch/data"
+
   # For DataNode setup, graylog starts with a preflight UI, this is a change from just using OpenSearch/Elasticsearch.
   # Please take a look at the README at the top of this repo or the regular docs for more info.
   datanode:
