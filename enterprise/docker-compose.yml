@@ -98,6 +98,7 @@ services:
 
 volumes:
   mongodb_data:
+  opensearch:
   graylog-datanode:
   graylog_data:
   graylog_journal:
