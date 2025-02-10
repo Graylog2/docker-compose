@@ -147,6 +147,7 @@ services:
       - "mongodb3"
     entrypoint: "/docker-entrypoint.sh"
     environment:
+      GRAYLOG_IS_LEADER: "true"
       GRAYLOG_NODE_ID_FILE: "/usr/share/graylog/data/data/node-id"
       # GRAYLOG_DATANODE_PASSWORD_SECRET and GRAYLOG_PASSWORD_SECRET MUST be the same value
       GRAYLOG_PASSWORD_SECRET: "${GRAYLOG_PASSWORD_SECRET:?Please configure GRAYLOG_PASSWORD_SECRET in the .env file}"
