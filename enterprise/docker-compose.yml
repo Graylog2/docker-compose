@@ -4,9 +4,7 @@
 services:
   # MongoDB: https://hub.docker.com/_/mongo/
   mongodb:
-    image: "mongo:6.0.18"
-    ports:
-      - "27017:27017"   
+    image: "mongo:6.0"  
     restart: "on-failure"
     networks:
       - graylog
