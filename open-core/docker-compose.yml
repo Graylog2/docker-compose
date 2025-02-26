@@ -2,14 +2,21 @@
 # Please take a look at the README at the top of this repo or the regular docs for more info.
 
 services:
+  # MongoDB: https://hub.docker.com/_/mongo/
   mongodb:
-    image: "mongo:5.0"
+    image: "mongo:6.0.18"
+    ports:
+      - "27017:27017"   
+    restart: "on-failure"
+    networks:
+      - graylog
     volumes:
       - "mongodb_data:/data/db"
-    restart: "on-failure"
+      - "mongodb_config:/data/configdb"  
 
   # For DataNode setup, graylog starts with a preflight UI, this is a change from just using OpenSearch/Elasticsearch.
   # Please take a look at the README at the top of this repo or the regular docs for more info.
+  # Graylog Data Node: https://hub.docker.com/r/graylog/graylog-datanode
   datanode:
     image: "${DATANODE_IMAGE:-graylog/graylog-datanode:6.1}"
     hostname: "datanode"
@@ -29,15 +36,20 @@ services:
       - "8999:8999/tcp"   # DataNode API
       - "9200:9200/tcp"
       - "9300:9300/tcp"
+    networks:
+      - graylog  
     volumes:
       - "graylog-datanode:/var/lib/graylog-datanode"
     restart: "on-failure"
 
+  # Graylog: https://hub.docker.com/r/graylog/graylog-enterprise
   graylog:
     hostname: "server"
     image: "${GRAYLOG_IMAGE:-graylog/graylog:6.1}"
     depends_on:
       mongodb:
+        condition: "service_started"
+      datanode:
         condition: "service_started"
     entrypoint: "/usr/bin/tini --  /docker-entrypoint.sh"
     environment:
@@ -61,13 +73,18 @@ services:
     #- "10000:10000/udp" # Custom UDP port
     - "13301:13301/tcp" # Forwarder data
     - "13302:13302/tcp" # Forwarder config
+    networks:
+      - graylog
     volumes:
       - "graylog_data:/usr/share/graylog/data/data"
-      - "graylog_journal:/usr/share/graylog/data/journal"
     restart: "on-failure"
+
+networks:
+  graylog:
+    driver: "bridge"
 
 volumes:
   mongodb_data:
+  mongodb_config:
   graylog-datanode:
   graylog_data:
-  graylog_journal:
