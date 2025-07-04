@@ -1,5 +1,7 @@
 # Graylog Docker Compose files
 
+## NOTE: The Docker Compose files in this repository are meant for testing and demo purposes! The files might be outdated and are not tested for production use cases!
+
 ## Introduction
 
 This is a set of [Docker Compose](https://docs.docker.com/compose/) files that allow you to quickly spin up a [Graylog](https://docs.graylog.org/) instance for testing or demo purposes.
