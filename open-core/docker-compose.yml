@@ -15,8 +15,12 @@ services:
   # For DataNode setup, graylog starts with a preflight UI, this is a change from just using OpenSearch/Elasticsearch.
   # Please take a look at the README at the top of this repo or the regular docs for more info.
   # Graylog Data Node: https://hub.docker.com/r/graylog/graylog-datanode
+
+  # ⚠️ Make sure this is set on the host before starting:
+  # echo "vm.max_map_count=262144" | sudo tee -a /etc/sysctl.conf
+  # sudo sysctl -p
   datanode:
-    image: "${DATANODE_IMAGE:-graylog/graylog-datanode:6.1}"
+    image: "${DATANODE_IMAGE:-graylog/graylog-datanode:6.3.1}"
     hostname: "datanode"
     environment:
       GRAYLOG_DATANODE_NODE_ID_FILE: "/var/lib/graylog-datanode/node-id"
@@ -43,7 +47,7 @@ services:
   # Graylog: https://hub.docker.com/r/graylog/graylog-enterprise
   graylog:
     hostname: "server"
-    image: "${GRAYLOG_IMAGE:-graylog/graylog:6.1}"
+    image: "${GRAYLOG_IMAGE:-graylog/graylog:6.3.1}"
     depends_on:
       mongodb:
         condition: "service_started"
