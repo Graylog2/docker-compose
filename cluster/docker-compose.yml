@@ -11,7 +11,7 @@ networks:
 
 services:
   mongodb1:
-    image: "mongo:5.0"
+    image: "mongo:7.0"
     hostname: "mongodb1"
     command: ["mongod", "--bind_ip_all", "--replSet", "rs0"]
     volumes:
@@ -24,7 +24,7 @@ services:
     restart: "on-failure"
 
   mongodb2:
-    image: "mongo:5.0"
+    image: "mongo:7.0"
     hostname: "mongodb2"
     command: ["mongod", "--bind_ip_all", "--replSet", "rs0"]
     volumes:
@@ -35,7 +35,7 @@ services:
     restart: "on-failure"
 
   mongodb3:
-    image: "mongo:5.0"
+    image: "mongo:7.0"
     hostname: "mongodb3"
     command: ["mongod", "--bind_ip_all", "--replSet", "rs0"]
     volumes:
