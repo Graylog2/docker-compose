@@ -10,7 +10,7 @@ while ! pgrep -xa mongod | fgrep -q -e --bind_ip_all; do
 done
 
 # Load the mounted init script and just retry until it succeeds
-while ! mongo --quiet --eval "load('/init-replset.js')"; do
+while ! mongosh --quiet --eval "load('/init-replset.js')"; do
 	echo "$0: Retrying replicaset initialization"
 	sleep 0.5
 done
