@@ -35,9 +35,9 @@ services:
         soft: 65536
         hard: 65536
     ports:
-      - "8999:8999/tcp"   # DataNode API
-      - "9200:9200/tcp"
-      - "9300:9300/tcp"
+      - "127.0.0.1:8999:8999/tcp"   # DataNode API
+      - "127.0.0.1:9200:9200/tcp"
+      - "127.0.0.1:9300:9300/tcp"
     networks:
       - graylog 
     volumes:
@@ -64,18 +64,18 @@ services:
       # To make reporting (headless_shell) work inside a Docker container
       GRAYLOG_REPORT_DISABLE_SANDBOX: "true"
     ports:
-    - "5044:5044/tcp"   # Beats
-    - "5140:5140/tcp"   # Syslog TCP
-    - "5140:5140/udp"   # Syslog UDP
-    - "5555:5555/tcp"   # RAW TCP
-    - "5555:5555/udp"   # RAW UDP
-    - "9000:9000/tcp"   # Server API
-    - "12201:12201/tcp" # GELF TCP
-    - "12201:12201/udp" # GELF UDP
-    #- "10000:10000/tcp" # Custom TCP port
-    #- "10000:10000/udp" # Custom UDP port
-    - "13301:13301/tcp" # Forwarder data
-    - "13302:13302/tcp" # Forwarder config
+    - "127.0.0.1:5044:5044/tcp"   # Beats
+    - "127.0.0.1:5140:5140/tcp"   # Syslog TCP
+    - "127.0.0.1:5140:5140/udp"   # Syslog UDP
+    - "127.0.0.1:5555:5555/tcp"   # RAW TCP
+    - "127.0.0.1:5555:5555/udp"   # RAW UDP
+    - "127.0.0.1:9000:9000/tcp"   # Server API
+    - "127.0.0.1:12201:12201/tcp" # GELF TCP
+    - "127.0.0.1:12201:12201/udp" # GELF UDP
+    #- "127.0.0.1:10000:10000/tcp" # Custom TCP port
+    #- "127.0.0.1:10000:10000/udp" # Custom UDP port
+    - "127.0.0.1:13301:13301/tcp" # Forwarder data
+    - "127.0.0.1:13302:13302/tcp" # Forwarder config
     networks:
       - graylog 
     volumes:

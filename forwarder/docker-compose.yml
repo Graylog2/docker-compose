@@ -9,15 +9,15 @@ services:
       # running version <=5.1-1 of the Forwarder image.
       #GRAYLOG_NODE_ID_FILE: "/var/lib/graylog-forwarder/node-id"
     ports:
-      - "5044:5044/tcp"   # Beats
-      - "5140:5140/udp"   # Syslog
-      - "5140:5140/tcp"   # Syslog
-      - "5555:5555/tcp"   # RAW TCP
-      - "5555:5555/udp"   # RAW UDP
-      - "12201:12201/tcp" # GELF TCP
-      - "12201:12201/udp" # GELF UDP
-      #- "10000:10000/tcp" # Custom TCP port
-      #- "10000:10000/udp" # Custom UDP port
+      - "127.0.0.1:5044:5044/tcp"   # Beats
+      - "127.0.0.1:5140:5140/udp"   # Syslog
+      - "127.0.0.1:5140:5140/tcp"   # Syslog
+      - "127.0.0.1:5555:5555/tcp"   # RAW TCP
+      - "127.0.0.1:5555:5555/udp"   # RAW UDP
+      - "127.0.0.1:12201:12201/tcp" # GELF TCP
+      - "127.0.0.1:12201:12201/udp" # GELF UDP
+      #- "127.0.0.1:10000:10000/tcp" # Custom TCP port
+      #- "127.0.0.1:10000:10000/udp" # Custom UDP port
     volumes:
       - "forwarder-data:/var/lib/graylog-forwarder"
       #- "/path/to/custom/jvm.options:/etc/graylog/forwarder/jvm.options"
