@@ -1,6 +1,6 @@
 services:
   forwarder:
-    image: "graylog/graylog-forwarder:6.6"
+    image: "graylog/graylog-forwarder:7.0"
     environment:
       GRAYLOG_FORWARDER_SERVER_HOSTNAME: "${GRAYLOG_FORWARDER_SERVER_HOSTNAME:?Please configure GRAYLOG_FORWARDER_SERVER_HOSTNAME in the .env file}"
       GRAYLOG_FORWARDER_GRPC_API_TOKEN: "${GRAYLOG_FORWARDER_GRPC_API_TOKEN:?Please configure GRAYLOG_FORWARDER_GRPC_API_TOKEN in the .env file}"
