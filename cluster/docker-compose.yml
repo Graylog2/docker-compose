@@ -158,7 +158,7 @@ services:
       - "127.0.0.1:12201:12201"      # GELF TCP
       - "127.0.0.1:12201:12201/udp"  # GELF UDP
     volumes:
-      - "graylog-data-01:/usr/share/graylog/data/data"
+      - "graylog-data-01:/usr/share/graylog/data"
       - "graylog-journal-01:/usr/share/graylog/data/journal"
     networks:
       graylog:
@@ -189,7 +189,7 @@ services:
       - "127.0.0.1:12202:12201"       # GELF TCP
       - "127.0.0.1:12202:12201/udp"   # GELF UDP
     volumes:
-      - "graylog-data-02:/usr/share/graylog/data/data"
+      - "graylog-data-02:/usr/share/graylog/data"
       - "graylog-journal-02:/usr/share/graylog/data/journal"
     networks:
       graylog:
@@ -220,7 +220,7 @@ services:
       - "127.0.0.1:12203:12201"     # GELF TCP
       - "127.0.0.1:12203:12201/udp" # GELF UDP
     volumes:
-      - "graylog-data-03:/usr/share/graylog/data/data"
+      - "graylog-data-03:/usr/share/graylog/data"
       - "graylog-journal-03:/usr/share/graylog/data/journal"
     networks:
       graylog:

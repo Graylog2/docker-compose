@@ -78,7 +78,7 @@ services:
     networks:
       - graylog
     volumes:
-      - "graylog_data:/usr/share/graylog/data/data"
+      - "graylog_data:/usr/share/graylog/data"
     restart: "on-failure"
 
 networks:
