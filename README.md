@@ -1,7 +1,7 @@
 # Graylog Docker Compose files
 
 > [!IMPORTANT]
-> The Docker Compose files in this repository are meant for testing and demo purposes! The files might be outdated and are not tested for production use cases!
+> The Docker Compose files in this repository are meant for testing and demo purposes! The files might be outdated, can change in incompatible ways, and are not tested for production use cases!
 
 ## Introduction
 
