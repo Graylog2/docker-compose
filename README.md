@@ -1,6 +1,7 @@
 # Graylog Docker Compose files
 
-## NOTE: The Docker Compose files in this repository are meant for testing and demo purposes! The files might be outdated and are not tested for production use cases!
+> [!IMPORTANT]
+> The Docker Compose files in this repository are meant for testing and demo purposes! The files might be outdated and are not tested for production use cases!
 
 ## Introduction
 
@@ -24,7 +25,8 @@ There is an environment file (`.env.example`) where you can store these environm
       cp .env.example .env
 
 
-**Important:** Be sure to to set the `GRAYLOG_PASSWORD_SECRET` and `GRAYLOG_ROOT_PASSWORD_SHA2` environment variables in the .env file! Graylog won't start without these.
+> [!IMPORTANT]
+> Be sure to to set the `GRAYLOG_PASSWORD_SECRET` and `GRAYLOG_ROOT_PASSWORD_SHA2` environment variables in the .env file! Graylog won't start without these.
 
 ## Starting Graylog
 
