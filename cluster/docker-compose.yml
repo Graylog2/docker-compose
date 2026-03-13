@@ -3,12 +3,6 @@
 
 # to make sure that the SSL certificates outlive down/up and stop/start, we have to set IP addresses
 # this is not needed for single node clusters but only with opensearch in docker clusters
-networks:
-  graylog:
-    ipam:
-      config:
-        - subnet: 172.20.0.0/24
-
 services:
   mongodb1:
     image: "mongo:7.0"
@@ -19,8 +13,7 @@ services:
       - "./mongodb/initdb.d:/docker-entrypoint-initdb.d"
       - "./mongodb/init-replset.js:/init-replset.js"
     networks:
-      graylog:
-        ipv4_address: 172.20.0.2
+      - graylog
     restart: "on-failure"
 
   mongodb2:
@@ -30,8 +23,7 @@ services:
     volumes:
       - "mongodb-data-02:/data/db"
     networks:
-      graylog:
-        ipv4_address: 172.20.0.3
+      - graylog
     restart: "on-failure"
 
   mongodb3:
@@ -41,8 +33,7 @@ services:
     volumes:
       - "mongodb-data-03:/data/db"
     networks:
-      graylog:
-        ipv4_address: 172.20.0.4
+      - graylog
     restart: "on-failure"
 
   # For DataNode setup, graylog starts with a preflight UI, this is a change from just using OpenSearch/Elasticsearch.
@@ -71,8 +62,7 @@ services:
     volumes:
       - "graylog-datanode-01:/var/lib/graylog-datanode"
     networks:
-      graylog:
-        ipv4_address: 172.20.0.5
+      - graylog
     restart: "on-failure"
 
   # For DataNode setup, graylog starts with a preflight UI, this is a change from just using OpenSearch/Elasticsearch.
@@ -101,8 +91,7 @@ services:
     volumes:
       - "graylog-datanode-02:/var/lib/graylog-datanode"
     networks:
-      graylog:
-        ipv4_address: 172.20.0.6
+      - graylog
     restart: "on-failure"
 
   # For DataNode setup, graylog starts with a preflight UI, this is a change from just using OpenSearch/Elasticsearch.
@@ -131,8 +120,7 @@ services:
     volumes:
       - "graylog-datanode-03:/var/lib/graylog-datanode"
     networks:
-      graylog:
-        ipv4_address: 172.20.0.7
+      - graylog
     restart: "on-failure"
 
   graylog1:
@@ -164,8 +152,7 @@ services:
       - "graylog-data-01:/usr/share/graylog/data"
       - "graylog-journal-01:/usr/share/graylog/data/journal"
     networks:
-      graylog:
-        ipv4_address: 172.20.0.8
+      - graylog
     restart: "on-failure"
 
   graylog2:
@@ -198,8 +185,7 @@ services:
       - "graylog-data-02:/usr/share/graylog/data"
       - "graylog-journal-02:/usr/share/graylog/data/journal"
     networks:
-      graylog:
-        ipv4_address: 172.20.0.9
+      - graylog
     restart: "on-failure"
 
   graylog3:
@@ -232,9 +218,12 @@ services:
       - "graylog-data-03:/usr/share/graylog/data"
       - "graylog-journal-03:/usr/share/graylog/data/journal"
     networks:
-      graylog:
-        ipv4_address: 172.20.0.10
+      - graylog
     restart: "on-failure"
+
+networks:
+  graylog:
+    driver: "bridge"
 
 volumes:
   graylog-datanode-01:
