@@ -1,8 +1,6 @@
 # For DataNode setup, graylog starts with a preflight UI, this is a change from just using OpenSearch/Elasticsearch.
 # Please take a look at the README at the top of this repo or the regular docs for more info.
 
-# to make sure that the SSL certificates outlive down/up and stop/start, we have to set IP addresses
-# this is not needed for single node clusters but only with opensearch in docker clusters
 services:
   mongodb1:
     image: "mongo:7.0"
