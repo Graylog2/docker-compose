@@ -39,7 +39,7 @@ services:
       - "127.0.0.1:9200:9200/tcp"
       - "127.0.0.1:9300:9300/tcp"
     networks:
-      - graylog 
+      - graylog
     volumes:
       - "graylog-datanode:/var/lib/graylog-datanode"
     restart: "on-failure"
