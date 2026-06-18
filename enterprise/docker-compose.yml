@@ -79,9 +79,6 @@ services:
     networks:
       - graylog 
     volumes:
-      # IMPORTANT: bind mounts (e.g., "./data:/usr/share/graylog/data") currently
-      # don't work correctly. You have to use volume mounts.
-      # See: https://github.com/Graylog2/docker-compose/issues/99#issuecomment-3800898829
       - "graylog_data:/usr/share/graylog/data"
     restart: "on-failure"
 

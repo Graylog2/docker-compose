@@ -144,9 +144,6 @@ services:
       - "127.0.0.1:12201:12201"      # GELF TCP
       - "127.0.0.1:12201:12201/udp"  # GELF UDP
     volumes:
-      # IMPORTANT: bind mounts (e.g., "./data:/usr/share/graylog/data") currently
-      # don't work correctly. You have to use volume mounts.
-      # See: https://github.com/Graylog2/docker-compose/issues/99#issuecomment-3800898829
       - "graylog-data-01:/usr/share/graylog/data"
       - "graylog-journal-01:/usr/share/graylog/data/journal"
     networks:
@@ -177,9 +174,6 @@ services:
       - "127.0.0.1:12202:12201"       # GELF TCP
       - "127.0.0.1:12202:12201/udp"   # GELF UDP
     volumes:
-      # IMPORTANT: bind mounts (e.g., "./data:/usr/share/graylog/data") currently
-      # don't work correctly. You have to use volume mounts.
-      # See: https://github.com/Graylog2/docker-compose/issues/99#issuecomment-3800898829
       - "graylog-data-02:/usr/share/graylog/data"
       - "graylog-journal-02:/usr/share/graylog/data/journal"
     networks:
@@ -210,9 +204,6 @@ services:
       - "127.0.0.1:12203:12201"     # GELF TCP
       - "127.0.0.1:12203:12201/udp" # GELF UDP
     volumes:
-      # IMPORTANT: bind mounts (e.g., "./data:/usr/share/graylog/data") currently
-      # don't work correctly. You have to use volume mounts.
-      # See: https://github.com/Graylog2/docker-compose/issues/99#issuecomment-3800898829
       - "graylog-data-03:/usr/share/graylog/data"
       - "graylog-journal-03:/usr/share/graylog/data/journal"
     networks:
